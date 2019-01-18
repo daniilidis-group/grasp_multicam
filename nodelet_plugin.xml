@@ -1,0 +1,9 @@
+<library path="lib/libtransform_point_cloud">
+  <class name="grasp_multicam/TransformPointCloud"
+         type="grasp_multicam::TransformPointCloud"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      point cloud transformation nodelet
+    </description>
+  </class>
+</library>

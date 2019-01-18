@@ -1,0 +1,11 @@
+<launch>
+  <!-- point cloud transformation nodelet  -->
+  <node pkg="nodelet" type="nodelet" name="transform_point_cloud"
+	args="standalone grasp_multicam/TransformPointCloud"
+	output="screen">
+    <param name="fixed_frame" value="vision"/>
+    <param name="transform_time_delay" value="-0.05"/>
+    <remap from="~points" to="/monstar/points"/>
+    <remap from="~transformed_points"  to="/monstar/transformed_points"/>
+  </node>
+</launch>
