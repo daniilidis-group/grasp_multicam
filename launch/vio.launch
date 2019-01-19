@@ -40,7 +40,7 @@
     <rosparam command="load" file="$(arg calibration_file)"/>
 
     <param name="publish_tf" value="true"/>
-    <param name="publish_on_imu_update" value="false"/>
+    <param name="publish_on_imu_update" value="true"/>
     <param name="time_delay" value="0"/>
     <param name="frame_rate" value="$(arg frame_rate)"/>
     <param name="fixed_frame_id" value="$(arg fixed_frame_id)"/>
