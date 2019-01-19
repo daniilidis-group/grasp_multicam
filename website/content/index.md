@@ -21,7 +21,7 @@ The stereo cameras used for the recording of this data set are
 experimental devices made by the
 [Open Source Robotics Foundation](https://www.openrobotics.org/). For
 some sequences, the data set was recorded by simply carrying around
-the robot to which sensors were attached to, in other cases, a simple
+the robot to which the sensors were attached to.  In other cases, a simple
 rig was cobbled together.
 
 <table>
