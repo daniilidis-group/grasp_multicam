@@ -1,0 +1,58 @@
+baseurl = "https://daniilidis-group.github.io/grasp_multicam/"
+languageCode = "en-us"
+title = "GRASP MultiCam"
+theme = "hugo-material-docs"
+metadataformat = "yaml"
+canonifyurls = true
+
+[params]
+	# General information
+	author = "Bernd Pfrommer"
+	description = "Depth sensor and synchronized multi-camera data set."
+
+	# Repository
+	provider = "GitHub"
+
+	favicon = "upenn_favicon.jpg"
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = ["tweaks.css"]
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+	logo = "upenn_favicon.jpg"
+
+	[params.palette]
+	    	primary = "blue"
+    		accent  = "light-green"
+
+	[params.font]
+		text = "Ubuntu"
+		code = "Ubuntu Mono"
+
+
+[[menu.main]]
+	name   = "Overview"
+	url    = ""
+	weight = 0
+[[menu.main]]
+	name   = "Data"
+	url    = "data/"
+	weight = 10
+[[menu.main]]
+	name   = "How to use"
+	url    = "how_to_use/"
+	weight = 15
+[[menu.main]]
+	name   = "Building 227"
+	url    = "building_227/"
+	weight = 20
+
+[blackfriday]
+	smartypants	= true
+	fractions = true
+	smartDashes = true
+	plainIDAnchors = true
