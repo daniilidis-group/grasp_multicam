@@ -82,12 +82,13 @@ if __name__ == '__main__':
                         help='Rostime (bag time, large number!) representing where to stop in the bag.')
     parser.add_argument('--freq', '-f', action='store', default=20, type=float,
                         help='frequency in hz of camera messages.')
+    parser.add_argument('--chunk_threshold', '-c', action='store', default=None, type=int,
+                        help='chunk threshold in bytes.')
     parser.add_argument('--outbag', '-o', action='store', default=None, required=True,
                         help='name of output bag.')
     parser.add_argument('bagfile')
 
     args = parser.parse_args()
-
 
     dt_expected  = 1.0/args.freq
     dt_ratio_max = 0.0
@@ -95,8 +96,10 @@ if __name__ == '__main__':
     last_percent = 0
     
     rospy.init_node('standardize_bag')
-    with Bag(args.outbag, 'w') as outbag:
-        with Bag(args.bagfile, 'r') as inbag:
+    with Bag(args.bagfile, 'r') as inbag:
+        cthresh = args.chunk_threshold if args.chunk_threshold else inbag.chunk_threshold
+        print "using chunk threshold: ", cthresh
+        with Bag(args.outbag, mode='w', chunk_threshold=cthresh) as outbag:
             t0 = rospy.get_rostime()
             start_time = max([inbag.get_start_time(), args.start])
             end_time   = min([inbag.get_end_time(), args.end])
@@ -154,8 +157,8 @@ if __name__ == '__main__':
                             tf.header.frame_id = frame_id_map[tf.header.frame_id]
                             static_tf_msg.transforms.append(tf)
                         else:
-                            print "DROPPING STATIC TRANSFORM: "
-                            print tf
+                            print "DROPPING STATIC TRANSFORM %s->%s" % (tf.header.frame_id,
+                                                                        tf.child_frame_id)
                     continue
                 elif topic == '/fla/vio/odom':
 #                    pass
