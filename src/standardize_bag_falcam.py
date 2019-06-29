@@ -14,6 +14,7 @@ import geometry_msgs
 import sensor_msgs
 import tf2_msgs
 import time
+import make_caminfo_msg
 
 from tf.transformations import *
 from fnmatch import fnmatchcase
@@ -95,20 +96,6 @@ def prev_cam_name(name):
         items = match.groups()
     return ("%s%d" % (items[0], int(items[1]) - 1))
 
-def make_caminfo_msg(c):
-    m = sensor_msgs.msg.CameraInfo()
-    m.height = c['resolution'][1]
-    m.width  = c['resolution'][0]
-    m.distortion_model = c['distortion_model']
-    m.D = c['distortion_coeffs']
-    K   = c['intrinsics']
-    m.K = [K[0], 0.0,  K[2], 0.0,  K[1], K[3], 0.0,  0.0, 1.0]
-    m.R = [1.000000, 0.000000, 0.000000,
-           0.000000, 1.000000, 0.000000,
-           0.000000, 0.000000, 1.000000]
-    m.P = m.K[0:3] + [0.0] + m.K[3:6] + [0.0] + m.K[6:9] + [0.0]
-    return m
-
 def img_to_caminfo_topic(img_topic):
     r1 = img_topic.replace('/image_mono8','/camera_info')
     r2 = r1.replace('/image_raw','/camera_info')
@@ -134,12 +121,13 @@ def read_calib(fname, point_cloud_camera_topic):
         tfm.child_frame_id  = frame_id_map[name]
         tfm.transform = matrix_to_tf(T)
         msg.transforms.append(tfm)
-        ci = make_caminfo_msg(cam)
+        ci = make_caminfo_msg.from_kalibr(cam)
         caminfos[img_to_caminfo_topic(cam['rostopic'])] = ci
         if cam['rostopic'] == point_cloud_camera_topic:
             adj = PointCloudAdjuster(ci)
     if adj == None:
-        print 'WARNING: no camera_info topic found for ', point_cloud_camera_topic
+        print 'WARNING: no camera_info topic found for ', \
+            point_cloud_camera_topic
     return msg, caminfos, adj
 
 def make_static_tf_msg(t, tfm):
@@ -258,6 +246,8 @@ if __name__ == '__main__':
                     first_time = False
                     static_tf_msg = make_static_tf_msg(t, static_transforms)
                     outbag.write('/tf_static', static_tf_msg, t)
+                if rospy.is_shutdown():
+                    break
 
         outbag.close()
                     
