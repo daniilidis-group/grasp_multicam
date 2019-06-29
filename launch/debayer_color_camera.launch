@@ -1,0 +1,10 @@
+<launch>
+  <arg name="cam" default="/color_camera"/>
+  <arg name="name" default="debayer"/>
+  <group ns="$(arg cam)">
+    <node pkg="nodelet" type="nodelet"
+	  name="$(arg name)" args="standalone image_proc/debayer"
+	  clear_params="true" output="screen">
+    </node>
+  </group>
+</launch>

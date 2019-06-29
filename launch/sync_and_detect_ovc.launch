@@ -1,0 +1,26 @@
+<launch>
+  <arg name="output" default="screen"/>
+  <arg name="bag" default=""/>
+  <arg name="detector_type" default="Umich"/>
+  <arg name="start_time" default="0.0"/>
+  <arg name="duration" default="-1.0"/>
+  <arg name="images_are_compressed" default="false"/>
+  <arg name="annotate_images" default="true"/>
+#	launch-prefix="gdb -ex run --args"
+  <node pkg="tagslam" type="sync_and_detect_node" name="sync_and_detect"
+    output="$(arg output)" clear_params="True">
+    <rosparam param="image_topics"> ["/ovc/cam_0/image_raw", "/ovc/cam_1/image_raw"]</rosparam>
+    <rosparam param="image_output_topics"> ["/ovc/cam_0/compressed", "/ovc/cam_1/compressed"]</rosparam>
+    <rosparam param="tag_topics"> ["/ovc/cam_0/tags", "/ovc/cam_1/tags"]</rosparam>
+    <rosparam param="odometry_topics"> ["/vio/odom"]</rosparam>
+    <param name="bag_file" value="$(arg bag)"/>
+    <param name="detector_type" value="$(arg detector_type)"/>
+    <param name="black_border_width" value="1"/>
+    <param name="annotate_images" value="$(arg annotate_images)"/>
+    <param name="images_are_compressed" value="$(arg images_are_compressed)"/>
+    <param name="start_time" value="$(arg start_time)"/>
+    <param name="duration" value="$(arg duration)"/>
+    <param name="output_bag_file" value="$(arg bag)_output.bag"/>
+    <param name="max_number_frames" value="100000"/>
+  </node>
+</launch>
