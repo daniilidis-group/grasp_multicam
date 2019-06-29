@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#------------------------------------------------------------------------------
 #
 # merge two bags into one (and bump the chunk size along with it)
 #
