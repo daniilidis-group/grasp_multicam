@@ -16,7 +16,8 @@ namespace grasp_multicam {
   public:
     void onInit() {
       nh_ = getPrivateNodeHandle();
-      sub_ = nh_.subscribe("points", 10, &TransformPointCloud::pointCloudCallback, this);
+      sub_ = nh_.subscribe("points", 10,
+                           &TransformPointCloud::pointCloudCallback, this);
       pub_ = nh_.advertise<sensor_msgs::PointCloud2>("transformed_points", 10);
       nh_.param<std::string>("fixed_frame", fixedFrame_, "map");
       double delay;
@@ -27,9 +28,9 @@ namespace grasp_multicam {
     void pointCloudCallback(const PointCloud2ConstPtr &cloud) {
       tf::StampedTransform T_f_c_stamped; // cloud to fixed
       try {
-        transformListener_.lookupTransform(fixedFrame_, cloud->header.frame_id,
-                                           cloud->header.stamp + transformTimeDelay_,
-                                           T_f_c_stamped);
+        transformListener_.lookupTransform(
+          fixedFrame_, cloud->header.frame_id,
+          cloud->header.stamp + transformTimeDelay_, T_f_c_stamped);
       }  catch (const tf::TransformException &e) {
         ROS_ERROR_STREAM("tf error: " << e.what());
         ros::Duration(0.1).sleep();
