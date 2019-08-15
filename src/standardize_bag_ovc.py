@@ -8,6 +8,7 @@
 import rospy
 import argparse
 import copy
+import time
 from fnmatch import fnmatchcase
 from rosbag import Bag
 
@@ -69,9 +70,25 @@ empty_frame_id_map = {
     '/fla/ovc_node/imu': 'ovc/imu'
 }
 
+last_ts = {'/fla/ovc_node/left/image_raw': None,
+           '/fla/ovc_node/right/image_raw': None}
+           
 
-                                                                                              
-                                                                                            
+def is_image_with_bad_timestamp(topic, msg, freq):
+    if (not fnmatchcase(topic, '/fla/ovc_node/left/image_raw') and
+        not fnmatchcase(topic, '/fla/ovc_node/right/image_raw')):
+        return False
+    last = last_ts[topic]
+    t = msg.header.stamp
+    if last:
+        dt = t - last
+        dtsf = dt.to_sec() * freq
+        if dtsf > 5.0 or dtsf < 0.1:
+            print "WARN: dropping bad frame: ", t
+            return True
+    last_ts[topic] = t
+    return False
+
 mapped_topics = topic_map.keys()
 
 if __name__ == '__main__':
@@ -90,9 +107,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    dt_expected  = 1.0/args.freq
-    dt_ratio_max = 0.0
-    tlast = None
     last_percent = 0
     
     rospy.init_node('standardize_bag')
@@ -100,7 +114,7 @@ if __name__ == '__main__':
         cthresh = args.chunk_threshold if args.chunk_threshold else inbag.chunk_threshold
         print "using chunk threshold: ", cthresh
         with Bag(args.outbag, mode='w', chunk_threshold=cthresh) as outbag:
-            t0 = rospy.get_rostime()
+            t0 = time.time()
             start_time = max([inbag.get_start_time(), args.start])
             end_time   = min([inbag.get_end_time(), args.end])
             total_time = end_time - start_time
@@ -111,20 +125,14 @@ if __name__ == '__main__':
                 percent_done = (t.to_sec() - start_time)/total_time * 100
                 if (percent_done - last_percent > 5.0):
                     last_percent = percent_done
-                    t1 = rospy.get_rostime()
-                    time_left = (100 - percent_done) * (t1-t0).to_sec() / percent_done
+                    t1 = time.time()
+                    time_left = (100 - percent_done) * (t1-t0) / percent_done
                     print "percent done: %5.0f, expected time remaining: %5.0fs" % (percent_done, time_left)
                 #
                 # test for bad time stamps
                 #
-                if (fnmatchcase(topic, '/fla/ovc_node/left/image_raw')):
-                    if tlast:
-                        dt = msg.header.stamp - tlast
-                        dt_ratio = (dt.to_sec() - dt_expected)/dt_expected
-                        if (dt_ratio > dt_ratio_max):
-                            print "new max dt at time t=", t, " dt = %.4f frames" % dt_ratio
-                            dt_ratio_max = dt_ratio
-                    tlast = msg.header.stamp
+                if is_image_with_bad_timestamp(topic, msg, args.freq):
+                    continue
                 #
                 # now remap topics
                 #
@@ -161,7 +169,6 @@ if __name__ == '__main__':
                                                                         tf.child_frame_id)
                     continue
                 elif topic == '/fla/vio/odom':
-#                    pass
                     continue # drop all odom
                 else:
                     if hasattr(msg, 'header'):
@@ -182,10 +189,14 @@ if __name__ == '__main__':
                         print msg
                         continue
                 outbag.write(t_mapped, msg, t)
+
+                if rospy.is_shutdown():
+                    break
+
             if static_tf_msg:
                 outbag.write('/tf_static', static_tf_msg, rospy.Time(inbag.get_start_time()))
-            print "wrote static msg: ", static_tf_time
-            print static_tf_msg
+                print "wrote static msg: ", static_tf_time
+                print static_tf_msg
 
         outbag.close()
                     
