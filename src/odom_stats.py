@@ -2,13 +2,16 @@
 #------------------------------------------------------------------------------
 # compute odometry statistics from bag
 #
+# For the path length, anything less than 2cm is considered noise and
+# ignored
 #
 
 import sys, rosbag, rospy, numpy as np
 import tf2_msgs
 import tf.transformations
 import argparse
-
+import math
+import matplotlib.pyplot as plt
 
 
 def get_info(bag, topic=None, start_time=rospy.Time(0),
@@ -60,6 +63,8 @@ if __name__ == '__main__':
                         default=rospy.Time(sys.maxint),
                         type=rospy.Time,
                         help='Rostime representing where to stop in the bag.')
+    parser.add_argument('--threshold', '-x', action='store', default=0.02, type=float,
+                        help='threshold for detecting movement.')
     parser.add_argument('--topic', '-t', action='store', required=True,
                         help='ROS odom topic')
 
@@ -68,10 +73,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     dist = 0
+    num_points = 0
     with rosbag.Bag(args.bagfile, 'r') as bag:
         t0, last_time, last_pose = None, None, None
         iterator = bag.read_messages(topics=[args.topic],start_time=args.start,
                                      end_time=args.end)
+        d_list = []
         for (topic, msg, t) in iterator:
             T = pose_to_matrix(msg.pose.pose)
             if not last_time:
@@ -80,11 +87,21 @@ if __name__ == '__main__':
                 last_pose = T
                 continue
             delta_pose = np.matmul(
-                T, tf.transformations.inverse_matrix(last_pose))
-            last_pose = T
-            dist = dist + np.linalg.norm(delta_pose[0:3,3])
-            #np.linalg.norm(delta_pose[0:3,3]), 
-            print msg.header.stamp, T[0:3,3],np.linalg.norm(delta_pose[0:3,3]) #delta_pose[0:3,3], np.linalg.norm(delta_pose[0:3,3])
-#            delta_pose[0:3,3]
-    print 'total path length: ', dist
-    
+                tf.transformations.inverse_matrix(last_pose), T)
+            d = np.linalg.norm(delta_pose[0:3,3])
+            if d > args.threshold:
+                d_list.append(d)
+                dist = dist + np.linalg.norm(delta_pose[0:3,3])
+                num_points = num_points + 1
+                last_time = t
+                last_pose = T
+        print 'noise threshold: ', args.threshold
+        print 'total number of points: ', num_points
+        print 'total path length: ', dist
+        d_arr = np.asarray(d_list)
+        print 'noise avg: ', np.mean(d_arr)
+        print 'noise stdv: ', np.std(d_arr)
+        np.histogram(d_arr, 100)
+        plt.hist(d_arr, bins='auto')
+        plt.title('frame-to-frame traveled distance [m]')
+        plt.show()
