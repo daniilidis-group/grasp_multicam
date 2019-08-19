@@ -56,7 +56,7 @@ def build_frame_id_map(c, topic_to_frame_id):
         name, cam = i[0], i[1]
         if name == 'T_imu_body':
             continue
-        print cam
+        #print cam
         m[name] = topic_to_frame_id[cam['rostopic']]
     # special entry for camera 0
     m['cam-1'] = topic_to_frame_id['IMU_FRAME']
