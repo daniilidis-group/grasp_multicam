@@ -1,17 +1,17 @@
 #!/usr/bin/env python
-#
-
-#
+#------------------------------------------------------------------------------
 # process bags such that they are in standard form
 #
+# 2019 Bernd Pfrommer
 
 import rospy
 import argparse
 import copy
 import time
+import numpy as np
 from fnmatch import fnmatchcase
 from rosbag import Bag
-
+from collections import defaultdict
 
 topic_map = {
     '/fla/monstar/camera_info':        {'name': '/monstar/camera_info'},
@@ -27,34 +27,9 @@ topic_map = {
     '/fla/ovc_node/left/image_raw':    {'name': '/ovc/cam_0/image_raw'},
     '/fla/ovc_node/right/camera_info': {'name': '/ovc/cam_1/camera_info'},
     '/fla/ovc_node/right/image_raw':   {'name': '/ovc/cam_1/image_raw'},
-    '/fla/vio/odom':                   {'name': '/ovc/vio/odom'},
-    '/tf':                             {'name': '/tf'},
-    '/tf_static':                      {'name': '/tf_static'}
 }
 
 
-#
-# static transforms:
-#
-# imu -> cam_0 -> cam_1 -> monstar
-# ovc/vio_map -> ovc/vio_vision  [90 degree yaw rotation]
-#
-# non-static transforms:
-#
-# ovc onboard vio:  ovc/vio_map -> base_link
-# offline     vio:  vio_map     -> base_link
-#
-# odometry:
-#
-# ovc odom:   vio_vision -> ovc/vio_odom
-#
-#
-# The ovc/vio_odom and ovc/imu frames are identical:
-#
-#     ovc/vio_odom comes from the vio odometry message
-#     ovc/imu      comes from the vio tf which establishes base_link
-#
-#
 
 frame_id_map = {
     'fla/left_cam':  'ovc/cam_0',
@@ -67,49 +42,116 @@ frame_id_map = {
 }
 
 empty_frame_id_map = {
-    '/fla/ovc_node/imu': 'ovc/imu'
+    '/fla/ovc_node/imu': 'ovc/imu',
+    '/fla/ovc_node/left/camera_info': 'ovc/cam_0',
+    '/fla/ovc_node/right/camera_info': 'ovc/cam_1',
+    '/fla/monstar/camera_info': 'monstar'
 }
 
-last_ts = {'/fla/ovc_node/left/image_raw': None,
-           '/fla/ovc_node/right/image_raw': None}
-           
 
-def is_image_with_bad_timestamp(topic, msg, freq):
+def is_image_with_bad_timestamp(topic, msg, bad_ts):
     if (not fnmatchcase(topic, '/fla/ovc_node/left/image_raw') and
         not fnmatchcase(topic, '/fla/ovc_node/right/image_raw')):
         return False
-    last = last_ts[topic]
     t = msg.header.stamp
-    if last:
-        dt = t - last
-        dtsf = dt.to_sec() * freq
-        if dtsf > 5.0 or dtsf < 0.1:
-            print "WARN: dropping bad frame: ", t
-            return True
-    last_ts[topic] = t
+    if t in bad_ts:
+        print "WARN: dropping bad frame: ", t.to_sec(), ' topic: ', topic
+        return True
     return False
+
+
+def analyze_time_stamps(bag_name, freq):
+    print 'finding adjust time and bad time stamps ...'
+    ts = defaultdict(list)
+
+    with Bag(bag_name, 'r') as inbag:
+        min_time_diff = rospy.Duration(1e10)
+        t0 = time.time()
+        start_time = inbag.get_start_time()
+        end_time   = inbag.get_end_time()
+        total_time = end_time - start_time
+        last_percent = 0
+        print "total time span to be processed: %.2fs" % total_time
+        for topic, msg, t in inbag.read_messages():
+            percent_done = (t.to_sec() - start_time)/total_time * 100
+            if (percent_done - last_percent > 5.0):
+                last_percent = percent_done
+                t1 = time.time()
+                time_left = (100 - percent_done) * (t1-t0) / percent_done
+                print ("percent done: %5.0f, expected time " + \
+                       "remaining: %5.0fs") % (percent_done, time_left)
+            if hasattr(msg, 'header'):
+                ts[topic].append(msg.header.stamp)
+                dt = t - msg.header.stamp
+                if dt < min_time_diff:
+                    min_time_diff = dt
+                    print 'min time diff: ', min_time_diff.to_sec()
+            if rospy.is_shutdown():
+                break
+    print 'time shift: ', min_time_diff.to_sec()
+    bad_stamps = []; bad_diffs = []
+    for tp in ('/fla/ovc_node/left/image_raw',
+               '/fla/ovc_node/right/image_raw'):
+        tss = np.asarray(ts[tp])
+        tsd = np.diff(tss)
+        idx = np.where((tsd > rospy.Duration(1.5 * 1.0/freq)) |
+                       (tsd < rospy.Duration(0.1 * 1.0/freq)))
+        # add 1 to index to skip *subsequent* frame
+        idxp   = [i + 1 for i in idx]
+        bad_stamps = bad_stamps + (tss[idxp]).tolist()
+        bad_diffs = bad_diffs + (tsd[idx]).tolist()
+
+    for i in range(0, len(bad_stamps)):
+        print 'bad time stamp: %f   dt = %f' % (
+            bad_stamps[i].to_sec(), bad_diffs[i].to_sec())
+            
+    return min_time_diff, sorted(bad_stamps)
+
+def is_duplicate_imu_timestamp(topic, msg, imu_ts):
+    if not topic == '/fla/ovc_node/imu':
+        return False
+    t = msg.header.stamp
+    if t in imu_ts:
+        print 'WARN: duplicate IMU time stamp: ', t.to_sec()
+        return True
+    imu_ts.add(t)
+    return False
+        
+
+
+
 
 mapped_topics = topic_map.keys()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Turn bag into standard form.')
-    parser.add_argument('--start', '-s', action='store', default=0.0, type=float,
-                        help='Rostime (bag time, large number!) representing where to start in the bag.')
-    parser.add_argument('--end', '-e', action='store', default=1e60, type=float,
-                        help='Rostime (bag time, large number!) representing where to stop in the bag.')
+    parser = argparse.ArgumentParser(
+        description='Convert bag to standard form.')
+    parser.add_argument(
+        '--start', '-s', action='store', default=0.0, type=float, help=
+        'ros time (bag time, large number!) where to start in the bag.')
+    parser.add_argument(
+        '--end', '-e', action='store', default=1e60, type=float, help=
+        'ros time (bag time, large number!) where to stop in the bag.')
     parser.add_argument('--freq', '-f', action='store', default=20, type=float,
                         help='frequency in hz of camera messages.')
-    parser.add_argument('--chunk_threshold', '-c', action='store', default=None, type=int,
-                        help='chunk threshold in bytes.')
-    parser.add_argument('--outbag', '-o', action='store', default=None, required=True,
-                        help='name of output bag.')
+    parser.add_argument(
+        '--chunk_threshold', '-c', action='store', default=None, type=int,
+        help='chunk threshold in bytes.')
+    parser.add_argument(
+        '--outbag', '-o', action='store', default=None, required=True,
+        help='name of output bag.')
+    parser.add_argument(
+        '--adjust_time', '-a', action='store', type=bool, default=False,
+        required=False, help='if time should be adjusted.')
     parser.add_argument('bagfile')
 
     args = parser.parse_args()
 
-    last_percent = 0
     
     rospy.init_node('standardize_bag')
+
+    adjust_time, bad_ts = analyze_time_stamps(args.bagfile, args.freq)
+
     with Bag(args.bagfile, 'r') as inbag:
         cthresh = args.chunk_threshold if args.chunk_threshold else inbag.chunk_threshold
         print "using chunk threshold: ", cthresh
@@ -118,85 +160,57 @@ if __name__ == '__main__':
             start_time = max([inbag.get_start_time(), args.start])
             end_time   = min([inbag.get_end_time(), args.end])
             total_time = end_time - start_time
-            static_tf_time, static_tf_msg = 0, None # only one static transform allowed
-            
+            last_percent = 0
+            imu_ts=set()
             print "total time span to be processed: %.2fs" % total_time
-            for topic, msg, t in inbag.read_messages(start_time=rospy.Time(args.start), end_time=rospy.Time(args.end)):
+            for topic, msg, t in inbag.read_messages(
+                    start_time=rospy.Time(args.start),
+                    end_time=rospy.Time(args.end)):
                 percent_done = (t.to_sec() - start_time)/total_time * 100
                 if (percent_done - last_percent > 5.0):
                     last_percent = percent_done
                     t1 = time.time()
                     time_left = (100 - percent_done) * (t1-t0) / percent_done
-                    print "percent done: %5.0f, expected time remaining: %5.0fs" % (percent_done, time_left)
+                    print ("percent done: %5.0f, expected time " + \
+                        "remaining: %5.0fs") % (percent_done, time_left)
+                t_adj = (t - adjust_time) if args.adjust_time else t
                 #
                 # test for bad time stamps
                 #
-                if is_image_with_bad_timestamp(topic, msg, args.freq):
+                if is_image_with_bad_timestamp(topic, msg, bad_ts):
+                    print 'dropped msg with bad time stamp: ', \
+                        topic, msg.header.stamp.to_sec()
+                    continue
+                if is_duplicate_imu_timestamp(topic, msg, imu_ts):
+                    print 'dropped duplicate imu time stamp: ', \
+                        topic, msg.header.stamp.to_sec()
                     continue
                 #
                 # now remap topics
                 #
                 if topic not in mapped_topics:
                     continue
-                t_mapped = topic_map[topic]['name']
-
+                tp_mapped = topic_map[topic]['name']
                 #
-                # deal with transforms
+                # remap frame ids
                 #
-                if topic == '/tf':
-                    continue # drop all transforms
-                    for tf in msg.transforms:
-                        if tf.child_frame_id in frame_id_map and tf.header.frame_id in frame_id_map:
-                            tf.child_frame_id  = frame_id_map[tf.child_frame_id]
-                            tf.header.frame_id = frame_id_map[tf.header.frame_id]
-#                            print "DROPPING TRANSFORM: "
-#                            print tf
-                elif topic == '/tf_static':
-#                    print "got static tf: "
-#                    print msg
-                    if not static_tf_msg:
-                        static_tf_time = t
-                        static_tf_msg = copy.deepcopy(msg)
-                        static_tf_msg.transforms = []
-                        
-                    for tf in msg.transforms:
-                        if tf.child_frame_id in frame_id_map and tf.header.frame_id in frame_id_map:
-                            tf.child_frame_id  = frame_id_map[tf.child_frame_id]
-                            tf.header.frame_id = frame_id_map[tf.header.frame_id]
-                            static_tf_msg.transforms.append(tf)
-                        else:
-                            print "DROPPING STATIC TRANSFORM %s->%s" % (tf.header.frame_id,
-                                                                        tf.child_frame_id)
-                    continue
-                elif topic == '/fla/vio/odom':
-                    continue # drop all odom
-                else:
-                    if hasattr(msg, 'header'):
-                        if msg.header.frame_id == '':
-                            msg.header.frame_id = empty_frame_id_map[topic]
-                        elif msg.header.frame_id in frame_id_map:
-                            msg.header.frame_id = frame_id_map[msg.header.frame_id]
-                        else:
-                            print "DROPPING MESSAGE:"
-                            print msg
-                            continue
-                        if topic == '/fla/monstar/points':
-                            msg.header.stamp = msg.header.stamp
-                            # t = t - rospy.Duration(0.15)
-                            # print (msg.header.stamp - t).to_sec()
+                if hasattr(msg, 'header'):
+                    if msg.header.frame_id == '':
+                        msg.header.frame_id = empty_frame_id_map[topic]
+                    elif msg.header.frame_id in frame_id_map:
+                        msg.header.frame_id = frame_id_map[msg.header.frame_id]
                     else:
-                        print "DROPPING MESSAGE WITH NO HEADER: "
+                        print "DROPPING MESSAGE:"
                         print msg
                         continue
-                outbag.write(t_mapped, msg, t)
+                else:
+                    print "DROPPING MESSAGE WITH NO HEADER: "
+                    print msg
+                    continue
+                outbag.write(tp_mapped, msg, t - adjust_time)
 
                 if rospy.is_shutdown():
                     break
-
-            if static_tf_msg:
-                outbag.write('/tf_static', static_tf_msg, rospy.Time(inbag.get_start_time()))
-                print "wrote static msg: ", static_tf_time
-                print static_tf_msg
 
         outbag.close()
                     
