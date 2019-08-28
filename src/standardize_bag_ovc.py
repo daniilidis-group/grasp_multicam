@@ -16,7 +16,6 @@ from collections import defaultdict
 topic_map = {
     '/fla/monstar/camera_info':        {'name': '/monstar/camera_info'},
     '/fla/monstar/image_depth':        {'name': '/monstar/image_depth'},
-    '/fla/monstar/image_depth':        {'name': '/monstar/image_depth'},
     '/fla/monstar/image_mono16':       {'name': '/monstar/image_mono16'},
     '/fla/monstar/image_mono8':        {'name': '/monstar/image_mono8'},
     '/fla/monstar/image_noise':        {'name': '/monstar/image_noise'},
