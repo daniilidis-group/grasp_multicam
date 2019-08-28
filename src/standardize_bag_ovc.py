@@ -14,6 +14,9 @@ from rosbag import Bag
 from collections import defaultdict
 
 topic_map = {
+    '/fla/camera/depth/camera_info':   {'name': '/astra/camera_info'},
+    '/fla/camera/depth/image_raw':     {'name': '/astra/image_raw'},
+    '/fla/camera/depth/points':        {'name': '/astra/points'},
     '/fla/monstar/camera_info':        {'name': '/monstar/camera_info'},
     '/fla/monstar/image_depth':        {'name': '/monstar/image_depth'},
     '/fla/monstar/image_mono16':       {'name': '/monstar/image_mono16'},
@@ -140,8 +143,14 @@ if __name__ == '__main__':
         '--outbag', '-o', action='store', default=None, required=True,
         help='name of output bag.')
     parser.add_argument(
+        '--adjust_msg_time', '-m', action='store', type=bool, default=False,
+        required=False, help='if msg time stamps should be adjusted to match time.')
+    parser.add_argument(
         '--adjust_time', '-a', action='store', type=bool, default=False,
-        required=False, help='if time should be adjusted.')
+        required=False, help='if time should be adjusted to match msg time.')
+    parser.add_argument(
+        '--depth_sensor', '-d', action='store', default='monstar',
+        required=False, help='depth sensor (monstar or astra).')
     parser.add_argument('bagfile')
 
     args = parser.parse_args()
@@ -150,6 +159,9 @@ if __name__ == '__main__':
     rospy.init_node('standardize_bag')
 
     adjust_time, bad_ts = analyze_time_stamps(args.bagfile, args.freq)
+
+    if args.depth_sensor == 'astra':
+        frame_id_map['fla/rgbd'] = 'astra'
 
     with Bag(args.bagfile, 'r') as inbag:
         cthresh = args.chunk_threshold if args.chunk_threshold else inbag.chunk_threshold
@@ -202,11 +214,13 @@ if __name__ == '__main__':
                         print "DROPPING MESSAGE:"
                         print msg
                         continue
+                    if args.adjust_msg_time:
+                        msg.header.stamp = msg.header.stamp + adjust_time
                 else:
                     print "DROPPING MESSAGE WITH NO HEADER: "
                     print msg
                     continue
-                outbag.write(tp_mapped, msg, t - adjust_time)
+                outbag.write(tp_mapped, msg, t_adj)
 
                 if rospy.is_shutdown():
                     break
