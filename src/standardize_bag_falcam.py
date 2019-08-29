@@ -15,9 +15,9 @@ import sensor_msgs
 import tf2_msgs
 import time
 import make_caminfo_msg
+import read_calib
 
 from tf.transformations import *
-from fnmatch import fnmatchcase
 from rosbag import Bag
 from collections import defaultdict
 from point_cloud_adjuster import PointCloudAdjuster
@@ -39,6 +39,7 @@ topic_map = {
     '/rig/pg_color/camera_info':       {'name': '/color_camera/camera_info'},
     '/rig/pg_color/image_raw':         {'name': '/color_camera/image_raw'},
 }
+
 mapped_topics = topic_map.keys()
 
 frame_id_map = {
@@ -51,106 +52,16 @@ frame_id_map = {
     'vision':        'vision',
 }
 
-topic_to_frame_id = {
-    '/rig/left/image_mono': 'falcam/cam_0',
-    '/rig/right/image_mono': 'falcam/cam_1',
-    '/rig/right/image_mono': 'falcam/cam_1',
-    '/rig/pg_color/image_raw': 'color_camera',
-    '/rig/monstar/image_mono8': 'monstar',
-    '/rig/imu':                 'falcam/imu'
-}
-
-def read_yaml(filename):
-    with open(filename, 'r') as y:
-        try:
-            return yaml.load(y)
-        except yaml.YAMLError as e:
-            print(e)
-
-def matrix_to_tf(T):
-    q  = quaternion_from_matrix(T)
-    tf = geometry_msgs.msg.Transform()
-    tf.translation.x = T[0,3]
-    tf.translation.y = T[1,3]
-    tf.translation.z = T[2,3]
-    tf.rotation.x = q[0]
-    tf.rotation.y = q[1]
-    tf.rotation.z = q[2]
-    tf.rotation.w = q[3]
-    return tf
-    
-def build_frame_id_map(c):
-    m = {}
-    for i in c.items():
-        name, cam = i[0], i[1]
-        if name == 'T_imu_body':
-            continue
-        m[name] = topic_to_frame_id[cam['rostopic']]
-    # special entry for camera 0
-    m['cam-1'] = topic_to_frame_id['/rig/imu']
-    return m
-
-def prev_cam_name(name):
-    match = re.match(r"([a-z]+)([0-9]+)", name, re.I)
-    if match:
-        items = match.groups()
-    return ("%s%d" % (items[0], int(items[1]) - 1))
-
-def img_to_caminfo_topic(img_topic):
-    r1 = img_topic.replace('/image_mono8','/camera_info')
-    r2 = r1.replace('/image_raw','/camera_info')
-    r3 = r2.replace('/image_mono','/camera_info')
-    return r3
-    
-
-def read_calib(fname, point_cloud_camera_topic):
-    c = read_yaml(fname)
-    static_transforms = []
-    msg = tf2_msgs.msg.TFMessage()
-    frame_id_map = build_frame_id_map(c)
-    caminfos = {}
-    adj = None
-    for i in c.items():
-        name, cam = i[0], i[1]
-        if name == 'T_imu_body':
-            continue
-        tf = cam['T_cam_imu'] if name == 'cam0' else cam['T_cn_cnm1']
-        T = np.linalg.inv(np.asarray(tf))
-        tfm = geometry_msgs.msg.TransformStamped()
-        tfm.header.frame_id = frame_id_map[prev_cam_name(name)]
-        tfm.child_frame_id  = frame_id_map[name]
-        tfm.transform = matrix_to_tf(T)
-        msg.transforms.append(tfm)
-        ci = make_caminfo_msg.from_kalibr(cam)
-        caminfos[img_to_caminfo_topic(cam['rostopic'])] = ci
-        if cam['rostopic'] == point_cloud_camera_topic:
-            adj = PointCloudAdjuster(ci)
-    if adj == None:
-        print 'WARNING: no camera_info topic found for ', \
-            point_cloud_camera_topic
-    return msg, caminfos, adj
-
-def make_static_tf_msg(t, tfm):
-    for tf in tfm.transforms:
-        tf.header.stamp = t
-        tf.header.seq = 0
-    return (tfm)
-
 def replace_camera_info(topic, msg, camera_infos):
     mmsg = camera_infos[topic]
     mmsg.header = msg.header
     return mmsg
 
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Turn bag into standard form.')
-    parser.add_argument(
-        '--start', '-s', action='store', default=0.0, type=float,
-        help='Rostime (bag time, large number!) representing start time.')
-    parser.add_argument(
-        '--end', '-e', action='store', default=1e60, type=float,
-        help='Rostime (bag time, large number!) representing stop time.')
     parser.add_argument(
         '--chunk_threshold', '-c', action='store', default=None, type=int,
         help='chunk threshold in bytes.')
@@ -158,8 +69,8 @@ if __name__ == '__main__':
         '--calib',  action='store', default=None, required=True,
         help='name of calibration file')
     parser.add_argument(
-        '--depth_sensor',  action='store', default='/rig/monstar',
-        help='ros name of depth sensor, e.g. /rig/monstar')
+        '--id_map',  action='store', default=None, required=True,
+        help='name of topic_to_id yaml file')
     parser.add_argument(
         '--outbag', '-o', action='store', default=None, required=True,
         help='name of output bag.')
@@ -167,9 +78,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    points_cinfo_topic = args.depth_sensor + '/image_mono8'
-    static_transforms, camera_infos, adjuster = read_calib(
-        args.calib, points_cinfo_topic)
+    topic_to_id_map = read_calib.read_yaml(args.id_map)
+    static_transforms, camera_infos = read_calib.read_calib(
+        args.calib, topic_to_id_map)
+    adjuster = PointCloudAdjuster(camera_infos['/monstar/camera_info'])
     
     rospy.init_node('standardize_bag')
     with Bag(args.bagfile, 'r') as inbag:
@@ -179,16 +91,14 @@ if __name__ == '__main__':
             time_to_data = defaultdict(dict)
             last_percent = 0
             t0 = time.time()
-            start_time = max([inbag.get_start_time(), args.start])
-            end_time   = min([inbag.get_end_time(), args.end])
+            start_time = inbag.get_start_time()
+            end_time   = inbag.get_end_time()
             total_time = end_time - start_time
             first_time = True
-            depth_topic  = args.depth_sensor + '/image_depth'
-            points_topic = args.depth_sensor + '/points'
+            depth_topic  = '/monstar/image_depth'
+            points_topic = '/monstar/points'
             print "total time span to be processed: %.2fs" % total_time
-            for topic, msg, t in inbag.read_messages(
-                    start_time=rospy.Time(args.start),
-                    end_time=rospy.Time(args.end)):
+            for topic, msg, t in inbag.read_messages():
                 percent_done = (t.to_sec() - start_time)/total_time * 100
                 if (percent_done - last_percent > 5.0):
                     last_percent = percent_done
@@ -214,16 +124,16 @@ if __name__ == '__main__':
                 #
                 # replace camera_info
                 #
-                if topic in camera_infos:
-                    msg = replace_camera_info(topic, msg, camera_infos)
+                if t_mapped in camera_infos:
+                    msg = replace_camera_info(t_mapped, msg, camera_infos)
                 #
                 # write to bag
                 #
                 if topic == depth_topic:
-                    time_to_data[msg.header.stamp][topic] = msg
+                    time_to_data[msg.header.stamp][t_mapped] = msg
                     outbag.write(t_mapped, msg, t) # can write immediately
                 elif topic == points_topic:
-                    time_to_data[msg.header.stamp][topic] = msg
+                    time_to_data[msg.header.stamp][t_mapped] = msg
                     # don't write, need to wait for depth image and point cloud
                     #outbag.write(t_mapped, msg, t)
                 else:
@@ -237,15 +147,8 @@ if __name__ == '__main__':
                         time_to_data[msg.header.stamp][depth_topic],
                         time_to_data[msg.header.stamp][points_topic])
                     # write adjusted points
-                    outbag.write(topic_map[points_topic]['name'], msg, t)
+                    outbag.write(points_topic, msg, t)
                     time_to_data.pop(msg.header.stamp)
-                #
-                # add static tf
-                #
-                if first_time:
-                    first_time = False
-                    static_tf_msg = make_static_tf_msg(t, static_transforms)
-                    outbag.write('/tf_static', static_tf_msg, t)
                 if rospy.is_shutdown():
                     break
 
