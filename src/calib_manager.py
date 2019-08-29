@@ -1,10 +1,20 @@
 #!/usr/bin/python2
 #------------------------------------------------------------------------------
 #
-# 2018 Bernd Pfrommer
+# 2019 Bernd Pfrommer
 #
-# Calibration script for the falcam rig
+# Calibration manager
 #
+# If the multicam_calibration node runs under the name 'multicam_calibration',
+# and you have 4 cameras to calibrate, run it like this:
+# 
+#     rosrun grasp_multicam calib_manager.py -n multicam_calibration -c 4
+#
+# Then you can trigger intrinsic calibration of cam3 this way:
+#
+#    calibrate rosservice call /intrinsic_calibration "camera: 'cam3'"
+#
+
 
 import rospy
 import roslib
@@ -18,7 +28,7 @@ FIX_EXTRINSICS = 1
 SET_ACTIVE     = 2
 
 param_text = ["FIX_INTRINSICS", "FIX_EXTRINSICS", "SET_ACTIVE"]
-all_cameras = ["cam0", "cam1", "cam2", "cam3"]
+all_cameras = None
 
 def do_intrinsics(cam_intrinsic, cams_fixed) :
     set_p(FIX_INTRINSICS, cam_intrinsic, False)
@@ -84,9 +94,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-n", "--node", required=True, help="name of calibration node")
+    parser.add_argument("-c", "--num_cameras", type=int, required=True,
+                        help="number of cameras")
     args = parser.parse_args()
 
-    rospy.init_node('example_calib_manager')
+    all_cameras = ["cam"+str(x) for x in range(args.num_cameras)]
+    rospy.init_node('calib_manager')
     print "waiting for calibration service..."
     rospy.wait_for_service(args.node + '/calibration')
     print "waiting for calibration parameter service..."
