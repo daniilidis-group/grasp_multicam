@@ -1,0 +1,33 @@
+<launch>
+  <arg name="manager_name" default="transform_point_cloud_manager"/>
+  
+  <!-- manager nodelet  -->
+  <node pkg="nodelet" type="nodelet" name="$(arg manager_name)"
+	args="manager" clear_params="true" output="screen"/>
+
+  <!-- point cloud transformation nodelet  -->
+  <node pkg="nodelet" type="nodelet" name="transform_point_cloud"
+	args="load grasp_multicam/TransformPointCloud $(arg manager_name)"
+	clear_params="true" output="screen">
+    <param name="fixed_frame" value="vision"/>
+    <param name="transform_time_delay" value="-0.05"/>
+    <remap from="~points" to="/monstar/points"/>
+    <remap from="~transformed_points"  to="/monstar/transformed_points"/>
+  </node>
+  <!-- voxelize and filter -->
+  <node pkg="nodelet" type="nodelet" name="voxelize_point_cloud"
+	args="load pcl/VoxelGrid $(arg manager_name)"
+	clear_params="true" output="screen">
+    <param name="leaf_size" value="0.02"/>
+    <param name="filter_field_name" value="z"/>
+    <!-- use this for tagslam odom
+    -->
+    <param name="filter_limit_min" value="-0.5"/>
+    <param name="filter_limit_max" value="2.1"/>
+    <!-- this works for most bags
+    <param name="filter_limit_min" value="-1.5"/>
+    <param name="filter_limit_max" value="1.25"/>
+    -->
+    <remap from="~input"  to="/monstar/transformed_points"/>
+  </node>
+</launch>
