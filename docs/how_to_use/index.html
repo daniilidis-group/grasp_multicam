@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>How to use - GRASP MultiCam</title>
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.40.1" />
+<link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://daniilidis-group.github.io/grasp_multicam/how_to_use/">
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>GRASP MultiCam</h1>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/grasp_multicam/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>How to use</h1>
+
+<h1 id="installation">Installation</h1>
+
+<p>Grab the repo from github and clone it into the &ldquo;src&rdquo; directory of
+your ROS/catkin workspace:</p>
+
+<pre><code>cd ~/catkin_ws/src
+git clone https://github.com/daniilidis-group/grasp_multicam.git
+</code></pre>
+
+<p>Build it:</p>
+
+<pre><code>catkin config -DCMAKE_BUILD_TYPE=Release
+catkin build
+</code></pre>
+
+<p>Source it:</p>
+
+<pre><code>source ../devel/setup.bash
+</code></pre>
+
+<h1 id="merging-bags">Merging bags</h1>
+
+<p>For 3D reconstruction, you will want to merge the odometry data with
+the raw bag. Here is an example of how to do this:</p>
+
+<pre><code>rosrun grasp_multicam merge_bags.py --outbag merged.bag 2018-11-09-11-00-28_raw_data.bag 2018-11-09-11-00-28_odom.bag
+</code></pre>
+
+<p>This will create a new bag <code>merged.bag</code> that has the combined topics.</p>
+
+<h1 id="visualizing-the-point-cloud">Visualizing the point cloud</h1>
+
+<p>To play the merged bag and visualize it with rviz:</p>
+
+<pre><code>rosparam set use_sim_time true
+rviz -d `rospack find grasp_multicam`/config/grasp_multicam.rviz
+roslaunch grasp_multicam transform_point_cloud.launch
+rosbag play --clock merged.bag
+</code></pre>
+
+<p>Running the <code>transform_point_cloud</code> node is necessary to get
+accurate reconstruction. This is for two reasons:</p>
+
+<ul>
+<li>the processing in the depth sensor driver (the &ldquo;libroyal&rdquo;
+propriertary part) causes a delay of the depth sensor data with
+respect to the IMU/camera data.</li>
+<li>Rviz seems to use arrival time rather than message time (aka
+header.stamp) when rendering point clouds.</li>
+</ul>
+<div class="edit-meta">
+Last updated on 9 Mar 2016
+
+
+<br>
+Published on 9 Mar 2016
+<br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/" title="GRASP MultiCam"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - GRASP MultiCam</a>
+<a class="nav nav-next" href="/grasp_multicam/building_227/" title="Building 227">Next - Building 227 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer></footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/">Home</a></li>
+
+<li class="parent active"><a href="/grasp_multicam/how_to_use/">How to use</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>IMU Sensors - GRASP MultiCam</title>
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.40.1" />
+<link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://daniilidis-group.github.io/grasp_multicam/sensors/imu/">
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>GRASP MultiCam</h1>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/grasp_multicam/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>IMU Sensors</h1>
+
+<h2 id="falcam-inertialsense-uins-2-2-a-name-uins-a">Falcam (InertialSense uIns 2.2)<a name="uIns"/></a></h2>
+
+<p>This is the sensor that was used on the Falcam:<br />
+<img src="../../media/imu_uins.jpg" height="200"/></p>
+
+<p>Find the <a href="../../media/imu_uins_data_sheet.pdf">manufacturer&rsquo;s data sheet here</a>.</p>
+
+<p>An IMU noise recording was done on 2019-09-05, the bag is available for download.
+The <a href="https://github.com/gaowenliang/imu_utils">imu_utils repo on github</a> was used
+for an Allan variance measurement, and produced the following graphs.<br />
+Gyro:<br />
+<img src="../../media/falcam_imu_gyro.jpg" height="400"/><br />
+Acceleration:<br />
+<img src="../../media/falcam_imu_acc.jpg" height="400"/>\</p>
+
+<p>Here are the parameters:</p>
+
+<p>From the imu_utils web page:</p>
+
+<ul>
+<li><code>gyr_n</code> is the gyro white noise in rad/s /sqrt(Hz)</li>
+<li><code>gyr_w</code> is the random walk noise in rad/s /sqrt(Hz)</li>
+<li><code>acc_n</code> is the acceleration white noise in m/s^2 / sqrt(Hz)</li>
+<li><code>acc_w</code> is the acceleration random walk noise in m/s^2 / sqrt(Hz)</li>
+</ul>
+
+<p>Here is <a href="../../media/falcam_imu_param.yaml">the yaml file</a>:</p>
+
+<pre><code>Gyr:
+   unit: &quot; rad/s&quot;
+   avg-axis:
+      gyr_n: 2.2296654083491523e-03
+      gyr_w: 2.9979585743663854e-05
+   x-axis:
+      gyr_n: 2.5371633002344977e-03
+      gyr_w: 2.6556855133795393e-05
+   y-axis:
+      gyr_n: 2.2510979099385144e-03
+      gyr_w: 3.7650281965731634e-05
+   z-axis:
+      gyr_n: 1.9007350148744450e-03
+      gyr_w: 2.5731620131464535e-05
+Acc:
+   unit: &quot; m/s^2&quot;
+   avg-axis:
+      acc_n: 2.8754923891845741e-02
+      acc_w: 9.1324720576818348e-04
+   x-axis:
+      acc_n: 2.5595942122352455e-02
+      acc_w: 1.1283935968961301e-03
+   y-axis:
+      acc_n: 2.3976901776021291e-02
+      acc_w: 6.0692114712261006e-04
+   z-axis:
+      acc_n: 3.6691927777163492e-02
+      acc_w: 1.0044268732858101e-03
+</code></pre>
+
+<p>The <a href="../../media/imu_uins_data_sheet.pdf">manufacturer&rsquo;s data sheet</a> gives these numbers (converted into rads and /sqrt(Hz)):</p>
+
+<ul>
+<li>gyro white noise:<br />
+0.01 deg/s /sqrt(Hz) = 1.7e-04 rad/s /sqrt(Hz) (much less than measured above: 2.22e-03 rad/s /sqrt(Hz))</li>
+<li>gyro random walk:<br />
+0.15 deg/sqrt(h) = 4.36e-05 rad/s /sqrt(Hz) (comparable to measured above: 2.99e-5 rad/s /sqrt(Hz))</li>
+<li>acceleration white noise:<br />
+300 ug/sqrt(Hz) = 2.94e-3 m/s^2 /sqrt(Hz) (much less than measured above: 2.88e-02 m/s^2 /sqrt(Hz))</li>
+<li>acceleration random walk:<br />
+0.07 m/s^2 / sqrt(h) = 1.17e-03 m/s^2 /sqrt(Hz) (comporable to 9.13e-04 measured above)</li>
+</ul>
+
+<p>There was no fan running or any known source of vibration present while the imu recording occured.</p>
+
+<h2 id="ovc-1-vectornav-vn-100-a-name-vn100-a">OVC 1 (VectorNav VN-100) <a name="VN100"></a></h2>
+
+<p>The IMU is a temperature compensated version somewhere in the $800 range.</p>
+
+<p>No noise recording done yet.</p>
+
+<p>From the <a href="../../media/vn100.pdf">manufacturer&rsquo;s data sheet</a>:</p>
+
+<ul>
+<li>gyro white noise:<br />
+0.0035 deg/s /sqrt(Hz) = 6.1e-5 rad/s /sqrt(Hz)</li>
+<li>gyro random walk:<br />
+only in-run bias stability of 10deg/h is provided.</li>
+<li>acceleration white noise:<br />
+0.14 mg/sqrt(Hz) = 1.37e-3 m/s^2 /sqrt(Hz)</li>
+<li>acceleration random walk:<br />
+only in-run bias stability of 0.04 mg is provided (shouldn&rsquo;t that be 0.04 mg/h)?</li>
+</ul>
+<div class="edit-meta">
+
+<br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/sensors/" title="Sensor Rigs"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Sensor Rigs</a>
+<a class="nav nav-next" href="/grasp_multicam/data/" title="Description of the data">Next - Description of the data <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer></footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/">Home</a></li>
+
+<li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+</li>
+
+<li class="parent"><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
+<ul class="sub-menu">
+<li class="active"><a href="/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

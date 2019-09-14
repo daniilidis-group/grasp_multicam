@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Sensor Rigs - GRASP MultiCam</title>
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.40.1" />
+<link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://daniilidis-group.github.io/grasp_multicam/sensors/">
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>GRASP MultiCam</h1>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/grasp_multicam/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>Sensor Rigs</h1>
+
+<h2 id="falcam-rig">Falcam Rig</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p>For the earlier sequences in the data set, an experimental rig was
+built, held together by double sided tape and zip ties. Here is a
+picture of the rig, and how the axis of the various sensors are oriented.<br />
+<table style="border: none; border-collapse: collapse">
+<tr>
+<td style="border:none">
+<img src="../media/falcam_rig.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+<td style="border:none">
+<img src="../media/falcam_transforms.jpg" style="float: top; width: 28%; margin-right: 1%; margin-bottom: 0.5em;"/>
+</td></p>
+
+<p></tr>
+</table></p>
+
+<h3 id="sensor-details">Sensor details</h3>
+
+<ul>
+<li>Falcam aka
+<a href="https://github.com/osrf/ovc/tree/master/hardware/ovc0/HarleyTandem">OVC 0/HarleyTandem</a>
+(at the bottom): a trinocular camera
+with IMU. This experimental device was developed
+by <a href="https://www.openrobotics.org/">OpenRobotics</a> under the
+<a href="https://www.darpa.mil/program/fast-lightweight-autonomy">DARPA Fast Lightweight Autonomy (FLA) program</a>.
+Of the three cameras, only the left and right most are used. IMU
+and cameras are hardware synchronized. A custom FPGA runs
+synchronized exposure control across both sensors.
+
+<ul>
+<li>imaging
+sensors: <a href="../media/on_python_1300_datasheet.pdf">ON Python 1300</a>,
+monochrome CMOS global shutter
+
+<ul>
+<li>resolution:  1280 x 1024</li>
+<li>lens: M12 2.8mm fish-eye lens, no IR filter</li>
+<li>field of view: 95.3deg horizontal, 82.6deg vertical</li>
+<li>frame rate: 20Hz</li>
+<li>exposure control: built-in on custom FPGA enabled, synchronized between</li>
+<li>left and right camera</li>
+</ul></li>
+<li>IMU: <a href="imu#uIns">InertialSense uINS 2.2</a><br />
+
+<ul>
+<li>sampling rate: 200Hz</li>
+</ul></li>
+</ul></li>
+<li>Color camera: PointGrey Chameleon CM3-U3-13Y3C-CS<br />
+This camera is <em>not</em> synchronized with the Falcam.
+sensor: <a href="../media/on_python_1300_datasheet.pdf">ON Python 1300</a>, color CMOS global shutter.<br />
+
+<ul>
+<li>resolution  1280 x 1024</li>
+<li>exposure control: PointGrey on-board enabled</li>
+<li>lens: M12 4mm fisheye with IR filter</li>
+<li>frame rate: 20Hz</li>
+<li>field of view: 75deg horizontal, 63.2deg vertical</li>
+<li>SDK: Flycap2 version 2.11.3.121</li>
+</ul></li>
+<li>Depth sensor: <a href="https://pmdtec.com/picofamily/">Monstar</a><br />
+Time-of-Flight sensor. Four powerful IR LEDs produce a flash of
+modulated light. The phase shift of the reflected light is
+measured to determine the time of flight and the distance. When
+operated at lower frequencies, the sensing distance
+increases. It is <em>not</em> synchronized with the Falcam.
+
+<ul>
+<li>resolution: 352 x 287</li>
+<li>field of view: 100deg horizontal, 85deg vertical</li>
+<li>measurement range: 0.5-6m</li>
+<li>frame rate: 5Hz or 10Hz</li>
+<li>exposure control: proprietary on-board enabled</li>
+<li>driver library version: libroyale-3.7.0.0-LINUX-x86-64Bit
+<br /></li>
+</ul></li>
+</ul>
+
+<h2 id="falcon-250-hand-carried">Falcon 250 (hand carried)</h2>
+
+<h3 id="overview-1">Overview</h3>
+
+<p>This sensor suite is mounted on a Falcon 250 quad rotor. The core
+piece is an integrated sensing device, the Open Vision Computer (OVC),
+version 1. It consists of an NVidia TX2, modified to obtain camera
+images directly via PCIe lanes from an FPGA that has two synchronized
+stereo cameras and an IMU attached. For depth measurement, either a
+Monstar ToF or an Astra RGBD sensor are mounted underneath the rotors. Two
+forward facing LED lights are used for some of the recorded sequences.<br />
+<table>
+<tr>
+<td> <!--  style="width: 50%"> -->
+<img src="../media/falcon_250.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+<td style="width: 50%">
+<img src="../media/fla_platform_large.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+</tr>
+</table></p>
+
+<p>While the OVC remained in the same position, the Monstar was either
+affixed above (where the LEDs are) or below the propellers, and in different orientation:<br />
+<table>
+<tr>
+<td>Configuration 1, with Astra camera </td>
+<td>Configuration 2, with Monstar above propellers</td>
+<td>Configuration 3, with Monstar below propellers</td>
+</tr>
+<tr>
+<td>
+<img src="../media/astra_transforms.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+<td>
+<img src="../media/monstar_above_transforms.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+<td>
+<img src="../media/monstar_below_transforms.jpg" style="float: top; width: 100%;
+margin-right: 1%; margin-bottom: 0.5em"/>
+</td>
+</tr>
+</table></p>
+
+<h3 id="sensor-details-1">Sensor details</h3>
+
+<ul>
+<li><p>Open Vision Computer (OVC) version 1</p>
+
+<ul>
+<li>imaging sensors:
+<a href="../media/on_python_1300_datasheet.pdf">ON Python 1300</a>,  monochrome CMOS global shutter<br /></li>
+<li>resolution:  1280 x 1024<br /></li>
+<li>lens: M12 2.8mm fish-eye lens, no IR filter<br /></li>
+<li>field of view: 95.3deg horizontal, 82.6deg vertical<br /></li>
+<li>frequency: 20Hz<br /></li>
+<li>IMU: onboard <a href="imu#VN100">VectorNav VN-100</a><br />
+NOTE: different IMU orientation than in the Falcam rig!</li>
+<li>sampling rate: 200Hz</li>
+</ul></li>
+
+<li><p>Depth sensor: <a href="https://pmdtec.com/picofamily/">Monstar</a><br />
+Time-of-Flight sensor. Four powerful IR LEDs produce a flash of
+modulated light. The phase shift of the reflected light is
+measured to determine the time of flight and the distance. When
+operated at lower frequencies, the sensing distance
+increases. It is <em>not</em> synchronized with the Falcam.</p>
+
+<ul>
+<li>resolution: 352 x 287</li>
+<li>field of view: 100deg horizontal, 85deg vertical</li>
+<li>measurement range: 0.5-6m</li>
+<li>frame rate: 5Hz or 10Hz</li>
+<li>exposure control: proprietary on-board enabled</li>
+<li>driver library version: libroyale-3.11.0.0-LINUX-arm-64Bit</li>
+</ul></li>
+
+<li><p>Depth sensor: <a href="https://orbbec3d.com/product-astra-pro">Orbbec Astra</a><br />
+Structured light RGB-D sensor, similar to the Microsoft Kinect.
+It is <em>not</em> synchronized with the Falcam.</p>
+
+<ul>
+<li>resolution (depth image): 640 x 480</li>
+<li>field of view: 60deg horizontal, 49.5deg vertical</li>
+<li>measurement range: 0.6-8m</li>
+<li>frame rate: 10Hz</li>
+<li>exposure control: proprietary on-board enabled</li>
+<li>driver library: OpenNI with ROS driver</li>
+</ul></li>
+</ul>
+<div class="edit-meta">
+
+<br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/building_227/" title="Building 227"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - Building 227</a>
+<a class="nav nav-next" href="/grasp_multicam/sensors/imu/" title="IMU Sensors">Next - IMU Sensors <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer></footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/">Home</a></li>
+
+<li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+</li>
+
+<li class="parent active"><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
+<ul class="sub-menu">
+<li class=""><a href="/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GRASP MultiCam</title>
+    <link>https://daniilidis-group.github.io/grasp_multicam/</link>
+    <description>Recent content on GRASP MultiCam</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>IMU Sensors</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/sensors/imu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://daniilidis-group.github.io/grasp_multicam/sensors/imu/</guid>
+      <description>Falcam (InertialSense uIns 2.2) This is the sensor that was used on the Falcam:
+Find the manufacturer&amp;rsquo;s data sheet here.
+An IMU noise recording was done on 2019-09-05, the bag is available for download. The imu_utils repo on github was used for an Allan variance measurement, and produced the following graphs.
+Gyro:
+Acceleration:
+\
+Here are the parameters:
+From the imu_utils web page:
+ gyr_n is the gyro white noise in rad/s /sqrt(Hz) gyr_w is the random walk noise in rad/s /sqrt(Hz) acc_n is the acceleration white noise in m/s^2 / sqrt(Hz) acc_w is the acceleration random walk noise in m/s^2 / sqrt(Hz)  Here is the yaml file:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>GRASP MultiCam - GRASP MultiCam</title>
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.40.1" />
+<link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="https://daniilidis-group.github.io/grasp_multicam/">
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>GRASP MultiCam</h1>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/grasp_multicam/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main>
+
+<p><img src="media/landing_page.jpg" alt="header" /></p>
+
+<h2 id="the-grasp-multicam-data-set">The GRASP MultiCam Data Set</h2>
+
+<p>The GRASP MultiCam data set combines recorded images from a
+synchronized stereo monochrome camera and IMU  with those from a depth
+sensor. The stereo camera / IMU device allows for accurate
+Visual-Inertial Odometry (VIO), which can then be used to recover 3D
+structure from the depth sensor point clouds.</p>
+
+<p>The data covers indoor and outdoor scenes. The recording devices are
+always carried by hand.</p>
+
+<h2 id="falcam-rig">Falcam Rig</h2>
+
+<p>For the earlier datasets, a
+<a href="https://github.com/osrf/ovc/tree/master/hardware/ovc0/HarleyTandem">Falcam (ovc version 0)</a>
+synchronized stereo camera/IMU is used, combined with
+a
+<a href="https://pmdtec.com/picofamily/">Monstar Time-Of-Flight (TOF) sensor</a>
+and an unsynchronized  PointGrey/FLIR color camera. It
+is cobbled together with zip ties and double sided tape into a rig
+that looks like this:<br />
+<td><img src="media/falcam_rig.jpg" height="300"/></td></p>
+
+<h2 id="falcon-250-quadrotor">Falcon 250 Quadrotor</h2>
+
+<p>Later, an aerial robot is carried around that has all
+the sensors connected to it. A laptop is attached via Cat6 cable to collect the
+data. Again the synchronized stereo camera/IMU is a custom device made
+by the <a href="https://www.openrobotics.org/">Open Source Robotics Foundation</a>, but
+this time it is an <a href="https://github.com/osrf/ovc">Open Vision Computer OVC 1</a>.
+No color camera is present, but either a
+<a href="https://pmdtec.com/picofamily/">Monstar Time-Of-Flight (TOF) sensor</a>
+or an <a href="https://orbbec3d.com/product-astra-pro/">Astra RGBD sensor</a>:<br />
+<img src="media/falcon_250.jpg" height="300"/></p>
+<nav class="pagination"><a class="nav nav-next" href="/grasp_multicam/how_to_use/" title="How to use">Next - How to use <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><div class="edit-meta">
+
+<br></div><footer></footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class="active"><a href="https://daniilidis-group.github.io/grasp_multicam/">Home</a></li>
+
+<li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
