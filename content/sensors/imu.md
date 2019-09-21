@@ -87,3 +87,37 @@ From the [manufacturer's data sheet](../../media/vn100.pdf):
 - acceleration random walk:\\
   only in-run bias stability of 0.04 mg is provided (shouldn't that be 0.04 mg/h)?
 
+Here is [the yaml file](../../media/ovc_1_imu_param.yaml):
+
+	%YAML:1.0
+	---
+	type: IMU
+	name: OVC
+	Gyr:
+	   unit: " rad/s"
+	   avg-axis:
+		  gyr_n: 6.6874234384522232e-04
+		  gyr_w: 1.9222795985920433e-05
+	   x-axis:
+		  gyr_n: 7.0961553147908430e-04
+		  gyr_w: 1.8787523798350273e-05
+	   y-axis:
+		  gyr_n: 6.7856317878720648e-04
+		  gyr_w: 2.1287401237419982e-05
+	   z-axis:
+		  gyr_n: 6.1804832126937639e-04
+		  gyr_w: 1.7593462921991043e-05
+	Acc:
+	   unit: " m/s^2"
+	   avg-axis:
+		  acc_n: 1.5625391734576680e-02
+		  acc_w: 2.3347315743898570e-04
+	   x-axis:
+		  acc_n: 1.2655463342569841e-02
+		  acc_w: 1.6065754611454993e-04
+	   y-axis:
+		  acc_n: 1.5241413464686443e-02
+		  acc_w: 1.7383597688629056e-04
+	   z-axis:
+		  acc_n: 1.8979298396473755e-02
+		  acc_w: 3.6592594931611662e-04
