@@ -1,5 +1,5 @@
 ---
-date: 2016-03-09T00:11:02+01:00
+date: 2019-09-25T00:11:02+01:00
 title: Description of the data
 weight: 20
 ---
@@ -97,8 +97,7 @@ The following data is provided:
   is converted to depth using factory-provided vs calibrated intrinsic
   parameters.
 
-TODO: what libroyal versions were used, what ROS driver, what were the
-filtering settings, what was exact hardware revision of the monstar?
+TODO: what ROS driver, what were the filtering settings
 
 ### Calibration file
 
@@ -180,3 +179,47 @@ would find:
 The ``/tf`` provides the transform between the fixed ``vision`` frame
 and ``ovc/imu``. This transform is necessary to reconstruct the point
 cloud.
+
+
+## Quirks
+
+No experimental data is ever perfect, and neither is the one of the
+GRASP multicam data set. Here are some known quirks:
+
+
+### IMU data has irregular time stamps
+
+For reasons that are not entirely clear, the imu data collected from the
+Falcam and OVC is sometimes irregularly spaced. With
+the IMU running at 200Hz, the time stamps should all be exactly 0.005s
+apart, but they are not. Since only driver-generated message time stamps are
+considered (header.stamp), and there are some time stamps that have
+close to no gap between them, at least some of the problems cannot be
+attributed to data dropping in the recording process.
+
+Below is a plot of the
+differences between time stamps for Falcam sequence
+2018-01-16-15-39-11.
+
+<img src="irreg_stamps_falcam.png" width="800"/>
+
+
+Same for the OVC1, for sequence 2018-10-24-17-25-45:
+
+<img src="irreg_stamps_ovc.png" width="800"/>
+
+
+For the OVC some of the delays could be due to load on the TX2, which
+was running the picoflexx driver, the VIO odom (for testing), and the
+ovc driver itself.
+
+We did not notice a degradation of the MSCKF VIO quality due to the
+above time stamp issue.
+
+### Monstar intensity image missing for the Falcam data series
+
+Due to oversight, the topic `/monstar/image_mono16` was not recorded
+for the Falcam sequences, only for the OVC sequences. This image
+contains the unscaled, raw intensity of the reflected
+light. Fortunately, the same information is available in the intensity
+channel of the point cloud topic `/monstar/points`.

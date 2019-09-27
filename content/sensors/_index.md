@@ -2,7 +2,7 @@
 title: Sensor Rigs
 weight: 10
 ---
-## Falcam Rig
+## Falcam Rig <a name="falcamrig"/></a>
 ### Overview
 For the earlier sequences in the data set, an experimental rig was
 built, held together by double sided tape and zip ties. Here is a
@@ -63,11 +63,12 @@ margin-right: 1%; margin-bottom: 0.5em"/>
 	- driver library version: libroyale-3.7.0.0-LINUX-x86-64Bit
 	
 
-## Falcon 250 (hand carried)
+## Falcon 250 (hand carried) <a name="falcon_250_rig"/></a>
 
 ### Overview
-This sensor suite is mounted on a Falcon 250 quad rotor. The core
-piece is an integrated sensing device, the Open Vision Computer (OVC),
+This sensor suite is mounted on a Falcon 250 quad rotor. A laptop is
+attached via a Cat6 cable to collect the data on the laptop. The core
+piece of the Falcon 250 is an integrated sensing device, the Open Vision Computer (OVC),
 version 1. It consists of an NVidia TX2, modified to obtain camera
 images directly via PCIe lanes from an FPGA that has two synchronized
 stereo cameras and an IMU attached. For depth measurement, either a
