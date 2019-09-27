@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Locations on GRASP MultiCam</title>
+    <link>https://daniilidis-group.github.io/grasp_multicam/locations/</link>
+    <description>Recent content in Locations on GRASP MultiCam</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
+    
+	<atom:link href="https://daniilidis-group.github.io/grasp_multicam/locations/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Building 227</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/locations/building_227/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>https://daniilidis-group.github.io/grasp_multicam/locations/building_227/</guid>
+      <description>Building 227 is located on the south bank of the Schuykill river, near the Pennovation Center.
+
+At the time of the recording, the building was vacant. It used to be a chemical laboratory for DuPont de Nemours, Inc.
+It is marked with a yellow rectangle on the map below:</description>
+    </item>
+    
+    <item>
+      <title>Levine Hall</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</link>
+      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      
+      <guid>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</guid>
+      <description>Levine Hall is located on the University of Pennsylvania&amp;rsquo;s campus in Philadelphia, PA.
+
+Levine Hall is the main location of UPenn&amp;rsquo;s GRASP Laboratory. Some of the recordings were done in the adjacent Graduate Research Wing of the Moore School.</description>
+    </item>
+    
+  </channel>
+</rss>

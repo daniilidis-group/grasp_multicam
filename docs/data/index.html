@@ -127,8 +127,7 @@ is converted to depth using factory-provided vs calibrated intrinsic
 parameters.</p></li>
 </ul>
 
-<p>TODO: what libroyal versions were used, what ROS driver, what were the
-filtering settings, what was exact hardware revision of the monstar?</p>
+<p>TODO: what ROS driver, what were the filtering settings</p>
 
 <h3 id="calibration-file">Calibration file</h3>
 
@@ -213,14 +212,54 @@ would find:</p>
 <p>The <code>/tf</code> provides the transform between the fixed <code>vision</code> frame
 and <code>ovc/imu</code>. This transform is necessary to reconstruct the point
 cloud.</p>
+
+<h2 id="quirks">Quirks</h2>
+
+<p>No experimental data is ever perfect, and neither is the one of the
+GRASP multicam data set. Here are some known quirks:</p>
+
+<h3 id="imu-data-has-irregular-time-stamps">IMU data has irregular time stamps</h3>
+
+<p>For reasons that are not entirely clear, the imu data collected from the
+Falcam and OVC is sometimes irregularly spaced. With
+the IMU running at 200Hz, the time stamps should all be exactly 0.005s
+apart, but they are not. Since only driver-generated message time stamps are
+considered (header.stamp), and there are some time stamps that have
+close to no gap between them, at least some of the problems cannot be
+attributed to data dropping in the recording process.</p>
+
+<p>Below is a plot of the
+differences between time stamps for Falcam sequence
+2018-01-16-15-39-11.</p>
+
+<p><img src="irreg_stamps_falcam.png" width="800"/></p>
+
+<p>Same for the OVC1, for sequence 2018-10-24-17-25-45:</p>
+
+<p><img src="irreg_stamps_ovc.png" width="800"/></p>
+
+<p>For the OVC some of the delays could be due to load on the TX2, which
+was running the picoflexx driver, the VIO odom (for testing), and the
+ovc driver itself.</p>
+
+<p>We did not notice a degradation of the MSCKF VIO quality due to the
+above time stamp issue.</p>
+
+<h3 id="monstar-intensity-image-missing-for-the-falcam-data-series">Monstar intensity image missing for the Falcam data series</h3>
+
+<p>Due to oversight, the topic <code>/monstar/image_mono16</code> was not recorded
+for the Falcam sequences, only for the OVC sequences. This image
+contains the unscaled, raw intensity of the reflected
+light. Fortunately, the same information is available in the intensity
+channel of the point cloud topic <code>/monstar/points</code>.</p>
 <div class="edit-meta">
-Last updated on 9 Mar 2016
+Last updated on 25 Sep 2019
 
 
 <br>
-Published on 9 Mar 2016
+Published on 25 Sep 2019
 <br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/sensors/imu/" title="IMU Sensors"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - IMU Sensors</a>
-<a class="nav nav-next" href="/grasp_multicam/how_to_use/" title="How to use">Next - How to use <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<a class="nav nav-next" href="/grasp_multicam/sequences/" title="Sequences">Next - Sequences <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><footer></footer>
 </main><div class="sidebar">
 <nav>
@@ -230,7 +269,12 @@ Published on 9 Mar 2016
 <li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
 </li>
 
-<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+<li class=""><a href="/grasp_multicam/locations/">Locations</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/locations/building_227/">Building 227</a></li>
+<li class=""><a href="/grasp_multicam/locations/levine/">Levine Hall</a></li>
+</ul>
+  
 </li>
 
 <li class=""><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
@@ -241,6 +285,35 @@ Published on 9 Mar 2016
 </li>
 
 <li class="parent active"><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/">Sequences</a>
+<ul class="">
+
+<li class=""><a href="/grasp_multicam/sequences/falcam/">Falcam</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/">2018-01-16</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/">2018-01-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/">2018-01-29</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/">2018-02-28</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/">2018-03-02</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/ovc/">OVC</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/">2018-04-26</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/">2018-05-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/">2018-10-24</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/">2018-10-25</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/">2018-11-08</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/">2018-11-09</a></li>
+</ul>
+  
+</li>
+</ul>
+  
 </li>
 </ul>
 </nav>

@@ -49,44 +49,114 @@ catkin build
 <pre><code>source ../devel/setup.bash
 </code></pre>
 
-<h1 id="merging-bags">Merging bags</h1>
+<h1 id="downloading-a-sequence">Downloading a sequence</h1>
 
-<p>For 3D reconstruction, you will want to merge the odometry data with
-the raw bag. Here is an example of how to do this:</p>
+<p>Once you find a sequence you are interested in
+(e.g. 2018-01-16-14-41-13) download it:</p>
 
-<pre><code>rosrun grasp_multicam merge_bags.py --outbag merged.bag 2018-11-09-11-00-28_raw_data.bag 2018-11-09-11-00-28_odom.bag
+<pre><code>seq=2018-01-16-14-41-13
+rosrun grasp_multicam download_sequence.bash $seq
 </code></pre>
 
-<p>This will create a new bag <code>merged.bag</code> that has the combined topics.</p>
+<h1 id="visualizing-the-point-cloud-simple-but-inaccurate">Visualizing the point cloud (simple but inaccurate)</h1>
 
-<h1 id="visualizing-the-point-cloud">Visualizing the point cloud</h1>
+<p>Play the bag and the necessary transforms like this:</p>
 
-<p>To play the merged bag and visualize it with rviz:</p>
-
-<pre><code>rosparam set use_sim_time true
-rviz -d `rospack find grasp_multicam`/config/grasp_multicam.rviz
-roslaunch grasp_multicam transform_point_cloud.launch
-rosbag play --clock merged.bag
+<pre><code>cd $seq
+roslaunch grasp_multicam replay_point_cloud.launch seq:=$seq dir:=`pwd`
 </code></pre>
+
+<p>In a separate terminal, start rviz:</p>
+
+<pre><code>seq=2018-01-16-14-41-13
+cd $seq
+rviz -d `pwd`/show_point_cloud.rviz
+</code></pre>
+
+<p>You should now see something like this:</p>
+
+<p><img src="rviz_pointcloud.png" width="600"/></p>
+
+<h1 id="visualizing-the-point-cloud-complicated-but-higher-quality">Visualizing the point cloud (complicated but higher quality)</h1>
 
 <p>Running the <code>transform_point_cloud</code> node is necessary to get
-accurate reconstruction. This is for two reasons:</p>
+more accurate reconstruction. This is for two reasons:</p>
 
 <ul>
 <li>the processing in the depth sensor driver (the &ldquo;libroyal&rdquo;
 propriertary part) causes a delay of the depth sensor data with
 respect to the IMU/camera data.</li>
 <li>Rviz seems to use arrival time rather than message time (aka
-header.stamp) when rendering point clouds.</li>
+header.stamp) when looking up the transform for rendering point
+clouds. So if the transform arrives delayed, the rendering will not
+be accurate.</li>
 </ul>
+
+<p>To get the more accurate rendering, play the point cloud like before,
+but also run the pointcloud transform</p>
+
+<pre><code>roslaunch grasp_multicam transform_point_cloud.launch
+</code></pre>
+
+<p>The transformed point cloud is now available, but under a different
+topic, so you must use a different rviz config file (or change the
+topic):</p>
+
+<pre><code>seq=2018-01-16-14-41-13
+cd $seq
+rviz -d `pwd`/show_point_cloud_tf.rviz
+</code></pre>
+
+<h1 id="rendering-the-projected-point-cloud-images-in-rviz">Rendering the projected point cloud images in Rviz</h1>
+
+<p>For this you need to compile the <a href="https://github.com/KumarRobotics/multicam_calibration">multicam_calibration ROS package
+from github</a>,
+and then undistort the cameras:</p>
+
+<pre><code>seq=2018-01-16-14-41-13
+cd $seq
+rviz -d `pwd`/show_cameras.rviz &amp;
+roslaunch grasp_multicam undistort_all_cams.launch dir:=`pwd`
+</code></pre>
+
+<p>in another terminal, play the bag:</p>
+
+<pre><code>seq=2018-01-16-14-41-13
+cd $seq
+rosbag play --clock ${seq}.bag
+</code></pre>
+
+<p>This should get you an image like this:</p>
+
+<p><img src="rviz_cameras.png" width="600"/></p>
+
+<p>The value of this visualization lies in the fact that you can check
+the camera calibration. At least while the camera is still, the point
+cloud should coincide with visual features such as wall edges etc.</p>
+
+<h1 id="recomputing-the-odometry">Recomputing the odometry</h1>
+
+<p>To recompute the odometry for a downloaded sequence, first compile the
+<a href="https://github.com/KumarRobotics/msckf_vio">msckf_vio ROS package</a>
+and make sure it is overlayed onto your ROS workspace.</p>
+
+<p>Now you can run the odometry:</p>
+
+<pre><code>seq=2018-01-16-14-41-13
+cd $seq
+roslaunch grasp_multicam run_vio.launch dir:=`pwd` seq:=$seq
+</code></pre>
+
+<p>This should eventually (takes a while to load the bag first!) produce
+a bag that has the odometry in it.</p>
 <div class="edit-meta">
-Last updated on 9 Mar 2016
+Last updated on 24 Sep 2019
 
 
 <br>
-Published on 9 Mar 2016
+Published on 24 Sep 2019
 <br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/" title="GRASP MultiCam"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - GRASP MultiCam</a>
-<a class="nav nav-next" href="/grasp_multicam/building_227/" title="Building 227">Next - Building 227 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<a class="nav nav-next" href="/grasp_multicam/locations/" title="Locations">Next - Locations <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><footer></footer>
 </main><div class="sidebar">
 <nav>
@@ -96,7 +166,12 @@ Published on 9 Mar 2016
 <li class="parent active"><a href="/grasp_multicam/how_to_use/">How to use</a>
 </li>
 
-<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+<li class=""><a href="/grasp_multicam/locations/">Locations</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/locations/building_227/">Building 227</a></li>
+<li class=""><a href="/grasp_multicam/locations/levine/">Levine Hall</a></li>
+</ul>
+  
 </li>
 
 <li class=""><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
@@ -107,6 +182,35 @@ Published on 9 Mar 2016
 </li>
 
 <li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/">Sequences</a>
+<ul class="">
+
+<li class=""><a href="/grasp_multicam/sequences/falcam/">Falcam</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/">2018-01-16</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/">2018-01-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/">2018-01-29</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/">2018-02-28</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/">2018-03-02</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/ovc/">OVC</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/">2018-04-26</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/">2018-05-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/">2018-10-24</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/">2018-10-25</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/">2018-11-08</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/">2018-11-09</a></li>
+</ul>
+  
+</li>
+</ul>
+  
 </li>
 </ul>
 </nav>

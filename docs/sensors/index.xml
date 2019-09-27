@@ -24,7 +24,7 @@ Acceleration:
 \
 Here are the parameters:
 From the imu_utils web page:
- gyr_n is the gyro white noise in rad/s /sqrt(Hz) gyr_w is the random walk noise in rad/s /sqrt(Hz) acc_n is the acceleration white noise in m/s^2 / sqrt(Hz) acc_w is the acceleration random walk noise in m/s^2 / sqrt(Hz)  Here is the yaml file:</description>
+ gyr_n is the gyro white noise in rad/s /sqrt(Hz) gyr_w is the random walk noise in rad/s * sqrt(Hz) acc_n is the acceleration white noise in m/s^2 / sqrt(Hz) acc_w is the acceleration random walk noise in m/s^2 * sqrt(Hz)  Here is the yaml file:</description>
     </item>
     
   </channel>

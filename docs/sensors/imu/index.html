@@ -50,9 +50,9 @@ Acceleration:<br />
 
 <ul>
 <li><code>gyr_n</code> is the gyro white noise in rad/s /sqrt(Hz)</li>
-<li><code>gyr_w</code> is the random walk noise in rad/s /sqrt(Hz)</li>
+<li><code>gyr_w</code> is the random walk noise in rad/s * sqrt(Hz)</li>
 <li><code>acc_n</code> is the acceleration white noise in m/s^2 / sqrt(Hz)</li>
-<li><code>acc_w</code> is the acceleration random walk noise in m/s^2 / sqrt(Hz)</li>
+<li><code>acc_w</code> is the acceleration random walk noise in m/s^2 * sqrt(Hz)</li>
 </ul>
 
 <p>Here is <a href="../../media/falcam_imu_param.yaml">the yaml file</a>:</p>
@@ -106,17 +106,72 @@ Acc:
 
 <p>The IMU is a temperature compensated version somewhere in the $800 range.</p>
 
-<p>No noise recording done yet.</p>
+<p>An IMU noise recording was done on 2019-09-18, the bag is available for download.
+The <a href="https://github.com/gaowenliang/imu_utils">imu_utils repo on github</a> was used
+for an Allan variance measurement, and produced the following graphs.<br />
+Gyro:<br />
+<img src="../../media/ovc_imu_gyro.jpg" height="400"/><br />
+Acceleration:<br />
+<img src="../../media/ovc_imu_acc.jpg" height="400"/></p>
+
+<p>Here are the parameters:</p>
+
+<p>From the imu_utils web page:</p>
+
+<ul>
+<li><code>gyr_n</code> is the gyro white noise in rad/s /sqrt(Hz)</li>
+<li><code>gyr_w</code> is the random walk noise in rad/s * sqrt(Hz)</li>
+<li><code>acc_n</code> is the acceleration white noise in m/s^2 / sqrt(Hz)</li>
+<li><code>acc_w</code> is the acceleration random walk noise in m/s^2 * sqrt(Hz)</li>
+</ul>
+
+<p>Here is <a href="../../media/falcam_imu_param.yaml">the yaml file</a>:</p>
+
+<pre><code>%YAML:1.0
+---
+type: IMU
+name: OVC
+Gyr:
+   unit: &quot; rad/s&quot;
+   avg-axis:
+      gyr_n: 6.6874234384522232e-04
+      gyr_w: 1.9222795985920433e-05
+   x-axis:
+      gyr_n: 7.0961553147908430e-04
+      gyr_w: 1.8787523798350273e-05
+   y-axis:
+      gyr_n: 6.7856317878720648e-04
+      gyr_w: 2.1287401237419982e-05
+   z-axis:
+      gyr_n: 6.1804832126937639e-04
+      gyr_w: 1.7593462921991043e-05
+Acc:
+   unit: &quot; m/s^2&quot;
+   avg-axis:
+      acc_n: 1.5625391734576680e-02
+      acc_w: 2.3347315743898570e-04
+   x-axis:
+      acc_n: 1.2655463342569841e-02
+      acc_w: 1.6065754611454993e-04
+   y-axis:
+      acc_n: 1.5241413464686443e-02
+      acc_w: 1.7383597688629056e-04
+   z-axis:
+      acc_n: 1.8979298396473755e-02
+      acc_w: 3.6592594931611662e-04
+</code></pre>
 
 <p>From the <a href="../../media/vn100.pdf">manufacturer&rsquo;s data sheet</a>:</p>
 
 <ul>
 <li>gyro white noise:<br />
-0.0035 deg/s /sqrt(Hz) = 6.1e-5 rad/s /sqrt(Hz)</li>
+0.0035 deg/s /sqrt(Hz) = 6.1e-5 rad/s /sqrt(Hz), which is a factor of 10 lower
+than what&rsquo;s measured above: 6.687e-04 rad/s /sqrt(Hz)</li>
 <li>gyro random walk:<br />
 only in-run bias stability of 10deg/h is provided.</li>
 <li>acceleration white noise:<br />
-0.14 mg/sqrt(Hz) = 1.37e-3 m/s^2 /sqrt(Hz)</li>
+0.14 mg/sqrt(Hz) = 1.37e-3 m/s^2 /sqrt(Hz), which is a factor of 10
+lower than what&rsquo;s measured above: 1.56e-02 m/s^2 / sqrt(Hz)</li>
 <li>acceleration random walk:<br />
 only in-run bias stability of 0.04 mg is provided (shouldn&rsquo;t that be 0.04 mg/h)?</li>
 </ul>
@@ -133,7 +188,12 @@ only in-run bias stability of 0.04 mg is provided (shouldn&rsquo;t that be 0.04 
 <li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
 </li>
 
-<li class=""><a href="/grasp_multicam/building_227/">Building 227</a>
+<li class=""><a href="/grasp_multicam/locations/">Locations</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/locations/building_227/">Building 227</a></li>
+<li class=""><a href="/grasp_multicam/locations/levine/">Levine Hall</a></li>
+</ul>
+  
 </li>
 
 <li class="parent"><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
@@ -144,6 +204,35 @@ only in-run bias stability of 0.04 mg is provided (shouldn&rsquo;t that be 0.04 
 </li>
 
 <li class=""><a href="/grasp_multicam/data/">Description of the data</a>
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/">Sequences</a>
+<ul class="">
+
+<li class=""><a href="/grasp_multicam/sequences/falcam/">Falcam</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/">2018-01-16</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/">2018-01-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/">2018-01-29</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/">2018-02-28</a></li>
+<li class=""><a href="/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/">2018-03-02</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/grasp_multicam/sequences/ovc/">OVC</a>
+<ul class="">
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/">2018-04-26</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/">2018-05-23</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/">2018-10-24</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/">2018-10-25</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/">2018-11-08</a></li>
+<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/">2018-11-09</a></li>
+</ul>
+  
+</li>
+</ul>
+  
 </li>
 </ul>
 </nav>
