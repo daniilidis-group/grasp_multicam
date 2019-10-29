@@ -31,21 +31,16 @@ sets). This is how the topics may look like:
     /ovc/cam_1/image_raw      4454 msgs    : sensor_msgs/Image      
     /ovc/image_metadata       4458 msgs    : ovc/Metadata           
     /ovc/imu                 40810 msgs    : sensor_msgs/Imu        
-    /tf_static                   1 msg     : tf2_msgs/TFMessage
-
 
 ### Static transforms and frames
 
-The static transforms ``/tf_static`` provide the relative poses between the
-sensors. They  should be identical to the transforms provided in the
-calibration yaml file.
+There are no static transforms stored in the rosbag, but there is a
+script with which you can publish the relevant transforms from the
+calibration files. For instance to publish the transforms for an
+ovc sequence, run the following command:
 
-![transforms](/media/transforms.jpg)
+	rosrun grasp_multicam  publish_calibration_tf.py --calib calib.yaml --id_map topic_to_frame_id.yaml --frame_ids monstar ovc/cam_0 ovc/cam_1
 
-The image shows camera, imu and depth sensor frames which are provided
-as ``/tf_static``. Also shown is the ``/tf`` from the fixed
-``vision`` frame to the ``ovc/imu``. This transform is provided in the
-odometry bag.
 
 ### Camera and imu data
 
@@ -96,8 +91,6 @@ The following data is provided:
   expected to be small, since they arise only from the fact that range
   is converted to depth using factory-provided vs calibrated intrinsic
   parameters.
-
-TODO: what ROS driver, what were the filtering settings
 
 ### Calibration file
 
