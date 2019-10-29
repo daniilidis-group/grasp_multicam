@@ -18,7 +18,10 @@ rep={"image_raw": "camera_info",
      "image_depth": "camera_info",
      "image_noise": "camera_info",
      "image_mono8": "camera_info",
-     "image_raw": "camera_info"}
+     "image_mono16": "camera_info"}
+
+has_caminfo=("image_raw", "image_depth")
+
 rep = dict((re.escape(k), v) for k, v in rep.iteritems())
 pattern = re.compile("|".join(rep.keys()))
 
@@ -73,9 +76,10 @@ if __name__ == '__main__':
                 if hasattr(msg, 'roi'): # must be camerainfo, drop
                     continue
                 if hasattr(msg, 'encoding'): # must be image, add camerainfo
-                    caminfo_topic, caminfo_msg = replace_camera_info(
-                        topic, msg, camera_infos)
-                    outbag.write(caminfo_topic, caminfo_msg, t)
+                    if any(x in topic for x in has_caminfo):
+                        caminfo_topic, caminfo_msg = replace_camera_info(
+                            topic, msg, camera_infos)
+                        outbag.write(caminfo_topic, caminfo_msg, t)
                 
                 outbag.write(topic, msg, t)
                 if rospy.is_shutdown():
