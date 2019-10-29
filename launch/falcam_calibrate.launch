@@ -4,8 +4,7 @@
   <arg name="record_bag" default="false"/>
 
   <node pkg="multicam_calibration" type="calibration_node"
-    name="multicam_calibration"
-    clear_params="true" output="screen">
+    name="multicam_calibration" clear_params="true" output="screen">
     <rosparam file="$(find multicam_calibration)/config/aprilgrid.yaml"/>
     <rosparam file="$(arg calib_dir)/$(arg device)-initial.yaml"/>
     <param name="use_approximate_sync" value="true"/>

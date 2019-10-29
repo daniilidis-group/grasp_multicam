@@ -1,7 +1,7 @@
 <launch>
   <arg name="output" default="screen"/>
   <arg name="data_dir" default="$(find grasp_multicam)/current"/>
-  <arg name="config_dir" default="$(arg data_dir)/config"/>
+  <arg name="config_dir" default="$(arg data_dir)"/>
   <arg name="write_debug_images" default="false"/>
   <arg name="has_compressed_images" default="false"/>
   <arg name="bag_start_time" default="0.0"/>
@@ -22,13 +22,8 @@
     <rosparam param="tagslam_config" command="load" file="$(arg tagslam_config_file)"/>
     <param name="bag_file" value="$(arg bag)"/>
     <param name="playback_rate" value="100"/>
-    <param name="viewing_angle_threshold" value="90"/>
-    <param name="optimizer_mode" value="fast"/>
     <param name="write_debug_images" value="$(arg write_debug_images)"/>
     <param name="has_compressed_images" value="$(arg has_compressed_images)"/>
-    <param name="max_subgraph_error" value="50.0"/>
-    <param name="max_num_incremental_opt" value="500000"/>
-    <param name="minimum_viewing_angle" value="12.0"/>
     <param name="max_number_of_frames" value="$(arg max_number_of_frames)"/>
     <param name="bag_start_time" value="$(arg bag_start_time)"/>
   </node>

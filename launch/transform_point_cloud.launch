@@ -1,6 +1,7 @@
 <launch>
   <arg name="manager_name" default="transform_point_cloud_manager"/>
-  
+  <arg name="fixed_frame" default="vision"/>
+  <arg name="depth_sensor" default="monstar"/>
   <!-- manager nodelet  -->
   <node pkg="nodelet" type="nodelet" name="$(arg manager_name)"
 	args="manager" clear_params="true" output="screen"/>
@@ -11,20 +12,19 @@
 	clear_params="true" output="screen">
     <param name="fixed_frame" value="vision"/>
     <param name="transform_time_delay" value="-0.05"/>
-    <remap from="~points" to="/monstar/points"/>
-    <remap from="~transformed_points"  to="/monstar/transformed_points"/>
+    <remap from="~points" to="/$(arg depth_sensor)/points"/>
+    <remap from="~transformed_points"  to="/depth_sensor/transformed_points"/>
   </node>
-  <!-- filter by altitude -->
-  <node pkg="nodelet" type="nodelet" name="filter_point_cloud"
+  <!-- filter z axis
+ -->
+       <node pkg="nodelet" type="nodelet" name="filter_point_cloud"
 	args="load pcl/PassThrough $(arg manager_name)"
 	clear_params="true" output="screen">
+    <param name="leaf_size" value="0.02"/>
     <param name="filter_field_name" value="z"/>
-    <!--
-    <param name="filter_limit_min" value="-1.0"/>
-    <param name="filter_limit_max" value="1.5"/>
-    -->
-    <param name="filter_limit_min" value="-10.0"/>
-    <param name="filter_limit_max" value="10.5"/>
-    <remap from="~input"  to="/monstar/transformed_points"/>
+    <param name="filter_limit_min" value="-3.5"/>
+    <param name="filter_limit_max" value="2.1"/>
+    <remap from="~input"  to="/depth_sensor/transformed_points"/>
   </node>
+
 </launch>
