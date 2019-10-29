@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 #------------------------------------------------------------------------------
-# compute odometry statistics from bag
-#
-# For the path length, anything less than 2cm is considered noise and
-# ignored
-#
+# plot IMU time stamp jitter
 
 import sys, rosbag, rospy, numpy as np
 import tf2_msgs
@@ -13,13 +9,6 @@ import argparse
 import math
 import matplotlib.pyplot as plt
 
-
-def pose_to_matrix(pose):
-    p = pose.position
-    q = pose.orientation
-    T = tf.transformations.quaternion_matrix(np.asarray([q.x, q.y, q.z, q.w]))
-    T[0:3,3] = np.asarray([p.x, p.y, p.z])
-    return T
 
 def read_bag(bagfile, topic):
     x = []
@@ -44,7 +33,7 @@ def plot_ts(x):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='compute statistics for odom.')
+        description='plot_odom.')
     parser.add_argument('--topic', '-t', action='store', required=True,
                         help='ROS odom topic')
 
