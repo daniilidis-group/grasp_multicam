@@ -42,11 +42,13 @@ if __name__ == '__main__':
     topic_to_id_map = read_calib.read_yaml(args.id_map)
     static_transforms, camera_infos = read_calib.read_calib(
         args.calib, topic_to_id_map)
-    adjuster = PointCloudAdjuster(camera_infos[args.depth_sensor + '/camera_info'])
+    adjuster = PointCloudAdjuster(camera_infos[args.depth_sensor
+                                               + '/camera_info'])
     
     rospy.init_node('adjust_pointcloud')
     with Bag(args.bagfile, 'r') as inbag:
-        cthresh = args.chunk_threshold if args.chunk_threshold else inbag.chunk_threshold
+        cthresh = args.chunk_threshold \
+                  if args.chunk_threshold else inbag.chunk_threshold
         print "using chunk threshold: ", cthresh
         with Bag(args.outbag, mode='w', chunk_threshold=cthresh) as outbag:
             time_to_data = defaultdict(dict)
