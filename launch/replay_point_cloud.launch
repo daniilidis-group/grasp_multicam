@@ -1,0 +1,12 @@
+<launch>
+  <arg name="seq"/>
+  <arg name="dir"/>
+  <param name="use_sim_time" value="true"/>
+  <!-- play transforms -->
+  <node pkg="grasp_multicam" type="publish_calibration_tf.py"
+	name="publish_calibration_tf"
+        args="--calib $(arg dir)/calib.yaml --id_map $(arg dir)/topic_to_frame_id.yaml -f ovc/imu ovc/cam_0 ovc/cam_1 falcam/imu falcam/cam_0 falcam/cam_1 monstar color_camera"/>
+  <!-- start playing -->
+  <node pkg="rosbag" type="play" name="play_bag"
+        args="--clock $(arg dir)/$(arg seq).bag $(arg dir)/$(arg seq)_odom.bag" required="true"/>
+</launch>

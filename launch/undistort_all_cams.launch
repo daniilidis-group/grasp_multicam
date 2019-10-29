@@ -1,0 +1,18 @@
+<launch>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/ovc/cam_0"/>
+    <arg name="name" value="undistort_ovc_cam_0"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/ovc/cam_1"/>
+    <arg name="name" value="undistort_ovc_cam_1"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/falcam/cam_0"/>
+    <arg name="name" value="undistort_falcam_cam_0"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/falcam/cam_1"/>
+    <arg name="name" value="undistort_falcam_cam_1"/>
+  </include>
+</launch>

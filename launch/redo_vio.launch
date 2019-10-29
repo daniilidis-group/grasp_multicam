@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="bag"/>
+  <arg name="current" default="$(find grasp_multicam)/current"/>
+  <!-- start vio -->
+  <include file="$(arg current)/vio_ovc.launch">
+  </include>
+  <!-- start recording -->
+  <node pkg="rosbag" type="record" name="record_bag"
+        args="-O $(arg current)/$(arg bag)_odom.bag
+	      /vio/odom /tf" />
+  <!-- start playing -->
+  <node pkg="rosbag" type="play" name="play_bag"
+        args="--clock -r 0.5 $(arg current)/$(arg bag).bag" required="true"/>
+
+</launch>

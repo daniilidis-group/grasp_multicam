@@ -1,0 +1,16 @@
+<launch>
+  <arg name="calib_dir"/>
+  <arg name="device"/>
+  <arg name="record_bag" default="false"/>
+
+  <node pkg="multicam_calibration" type="calibration_node"
+    name="multicam_calibration" clear_params="true" output="screen">
+    <rosparam file="$(arg calib_dir)/aprilgrid.yaml"/>
+    <rosparam file="$(arg calib_dir)/$(arg device)-initial.yaml"/>
+    <param name="use_approximate_sync" value="true"/>
+    <param name="calib_dir" value="$(arg calib_dir)"/>
+    <param name="latest_link_name" value="$(arg device)-latest.yaml"/>
+    <param name="output_filename" value="$(arg device)"/>
+    <param name="record_bag" value="$(arg record_bag)"/>
+  </node>
+</launch>

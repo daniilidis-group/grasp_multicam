@@ -1,0 +1,33 @@
+<launch>
+  <arg name="dir"/>
+  <!-- these cameras have fisheye lenses, and need a special undistort -->
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/ovc/cam_0"/>
+    <arg name="name" value="undistort_ovc_cam_0"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/ovc/cam_1"/>
+    <arg name="name" value="undistort_ovc_cam_1"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/falcam/cam_0"/>
+    <arg name="name" value="undistort_falcam_cam_0"/>
+  </include>
+  <include file="$(find grasp_multicam)/launch/undistort_cam.launch">
+    <arg name="cam" value="/falcam/cam_1"/>
+    <arg name="name" value="undistort_falcam_cam_1"/>
+  </include>
+  <!-- the monstar has regular plumb_bob (radtan) distortion -->
+  <group ns="monstar">
+    <node pkg="image_proc" type="image_proc"
+	  name="undistort_monstar" clear_params="True">
+      <remap from="image_raw" to="image_mono8"/>
+    </node>
+  </group>
+
+  <!-- also need the transforms for rviz camera to work -->
+  <node pkg="grasp_multicam" type="publish_calibration_tf.py"
+	name="publish_calibration_tf"
+        args="--calib $(arg dir)/calib.yaml --id_map $(arg dir)/topic_to_frame_id.yaml -f ovc/imu ovc/cam_0 ovc/cam_1 falcam/imu falcam/cam_0 falcam/cam_1 monstar astra color_camera"/>
+    
+</launch>
