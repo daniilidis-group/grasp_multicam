@@ -6,50 +6,39 @@
     <description>Recent content on GRASP MultiCam</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Sep 2019 00:11:02 +0100</lastBuildDate>
     
 	<atom:link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>2018-04-26</title>
-      <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/</link>
-      <pubDate>Thu, 26 Sep 2019 00:11:02 +0100</pubDate>
+      <title>2018-01-16</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/</guid>
-      <description>2018-04-26-16-13-29   Stairwell exploration with the Astra depth sensor at Pennovation/PERCH: from 4th floor to first floor lobby and back.             sensor rig: Falcon 250, configuration 1 location: Building 227  duration: 136s approx path length: 78maltitude difference: 8.99m  median/maximum velocity: 0.60 / 1.16 m/s median/maximum angular velocity: 0.33 / 1.34 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (14Gb)   tar file with calibration and launch files   rosbag with odometry (24Mb)</description>
+      <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</guid>
+      <description>2018-01-16-14-41-13 
+  Short loop through &#34;bump space&#34; 4th floor of Levine Hall (Graduate Research Wing).               sensor rig: Falcam location: Levine   duration: 163s   approx path length: 95m altitude difference: 2.4m   median/maximum velocity: 0.63 / 1.27 m/s median/maximum angular velocity: 0.23 / 1.26 rad/s    environment: indoorslighting: artificialtags: no    rosbag with raw data (16Gb)   tar file with calibration and launch files   rosbag with odometry (29Mb)    2018-01-16-15-39-11</description>
     </item>
     
     <item>
-      <title>2018-01-16</title>
-      <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</link>
-      <pubDate>Tue, 24 Sep 2019 00:11:02 +0100</pubDate>
+      <title>2018-04-26</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</guid>
-      <description>2018-01-16-14-41-13   Short loop through &#34;bump space&#34; 4th floor of Levine Hall (Graduate Research Wing).              sensor rig: Falcam location: Levine   duration: 163s   approx path length: 95m altitude difference: 2.4m   median/maximum velocity: 0.63 / 1.27 m/s median/maximum angular velocity: 0.23 / 1.26 rad/s    environment: indoorslighting: artificialtags: no    rosbag with raw data (16Gb)   tar file with calibration and launch files   rosbag with odometry (29Mb)    2018-01-16-15-39-11   Starting near &#34;</description>
+      <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/</guid>
+      <description>2018-04-26-16-13-29    Stairwell exploration with the Astra depth sensor at Pennovation/PERCH: from 4th floor to first floor lobby and back.             sensor rig: Falcon 250, configuration 1 location: Building 227  duration: 136s approx path length: 78maltitude difference: 8.99m  median/maximum velocity: 0.60 / 1.16 m/s median/maximum angular velocity: 0.33 / 1.34 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (14Gb)   tar file with calibration and launch files   rosbag with odometry (24Mb)</description>
     </item>
     
     <item>
       <title>Building 227</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/locations/building_227/</link>
-      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/locations/building_227/</guid>
       <description>Building 227 is located on the south bank of the Schuykill river, near the Pennovation Center.
 
 At the time of the recording, the building was vacant. It used to be a chemical laboratory for DuPont de Nemours, Inc.
 It is marked with a yellow rectangle on the map below:</description>
-    </item>
-    
-    <item>
-      <title>Levine Hall</title>
-      <link>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</link>
-      <pubDate>Wed, 09 Mar 2016 00:11:02 +0100</pubDate>
-      
-      <guid>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</guid>
-      <description>Levine Hall is located on the University of Pennsylvania&amp;rsquo;s campus in Philadelphia, PA.
-
-Levine Hall is the main location of UPenn&amp;rsquo;s GRASP Laboratory. Some of the recordings were done in the adjacent Graduate Research Wing of the Moore School.</description>
     </item>
     
     <item>
@@ -70,84 +59,95 @@ From the imu_utils web page:
     </item>
     
     <item>
+      <title>Levine Hall</title>
+      <link>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://daniilidis-group.github.io/grasp_multicam/locations/levine/</guid>
+      <description>Levine Hall is located on the University of Pennsylvania&amp;rsquo;s campus in Philadelphia, PA.
+
+Levine Hall is the main location of UPenn&amp;rsquo;s GRASP Laboratory. Some of the recordings were done in the adjacent Graduate Research Wing of the Moore School.</description>
+    </item>
+    
+    <item>
       <title>2018-01-23</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/</link>
-      <pubDate>Thu, 26 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/</guid>
-      <description>2018-01-23-18-12-42    Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-02-28-20-04-10, and 2018-03-02-08-06-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 272s approx path length: 129maltitude difference: 0.66m  median/maximum velocity: 0.49 / 0.85 m/s median/maximum angular velocity: 0.41 / 1.58 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (27Gb)   tar file with calibration and launch files   rosbag with odometry (48Mb)</description>
+      <description>2018-01-23-18-12-42     Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-02-28-20-04-10, and 2018-03-02-08-06-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 272s approx path length: 129maltitude difference: 0.66m  median/maximum velocity: 0.49 / 0.85 m/s median/maximum angular velocity: 0.41 / 1.58 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (27Gb)   tar file with calibration and launch files   rosbag with odometry (48Mb)</description>
     </item>
     
     <item>
       <title>2018-05-23</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/</link>
-      <pubDate>Thu, 26 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/</guid>
-      <description>2018-05-23-18-58-52   Exploration in Building 227, probably starting 3rd floor, going down the stairs to 2nd floor. Ends in stairwell, not a loop!             sensor rig: Falcon 250, configuration 2 location: Building 227  duration: 84s approx path length: 69maltitude difference: 4.71m  median/maximum velocity: 0.87 / 1.35 m/s median/maximum angular velocity: 0.30 / 1.19 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
+      <description>2018-05-23-18-58-52    Exploration in Building 227, probably starting 3rd floor, going down the stairs to 2nd floor. Ends in stairwell, not a loop!             sensor rig: Falcon 250, configuration 2 location: Building 227  duration: 84s approx path length: 69maltitude difference: 4.71m  median/maximum velocity: 0.87 / 1.35 m/s median/maximum angular velocity: 0.30 / 1.19 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
     </item>
     
     <item>
       <title>2018-01-29</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/</guid>
-      <description>2018-01-29-14-49-52   Bump space Levine to elevator, downstairs, out main entrance Levine, around building clockwise, back into Moore, Skirkanich, Levine Lobby, up stairs back to bump space.             sensor rig: Falcam location: Levine  duration: 549s approx path length: 475maltitude difference: 13.27m  median/maximum velocity: 0.93 / 1.49 m/s median/maximum angular velocity: 0.22 / 1.59 rad/s   environment: indoors/outdoorslighting: artificial/naturaltags: no    rosbag with raw data (55Gb)   tar file with calibration and launch files   rosbag with odometry (97Mb)    2018-01-29-15-16-31   Bump space Levine downstairs to basement lounges, then back up to bump space.</description>
+      <description>2018-01-29-14-49-52    Bump space Levine to elevator, downstairs, out main entrance Levine, around building clockwise, back into Moore, Skirkanich, Levine Lobby, up stairs back to bump space.             sensor rig: Falcam location: Levine  duration: 549s approx path length: 475maltitude difference: 13.27m  median/maximum velocity: 0.93 / 1.49 m/s median/maximum angular velocity: 0.22 / 1.59 rad/s   environment: indoors/outdoorslighting: artificial/naturaltags: no    rosbag with raw data (55Gb)   tar file with calibration and launch files   rosbag with odometry (97Mb)</description>
     </item>
     
     <item>
       <title>2018-02-28</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/</guid>
-      <description>2018-02-28-19-01-38   Double loop around 5th floor elevator Levine Hall, up to running speed.             sensor rig: Falcam location: Levine  duration: 50s approx path length: 98maltitude difference: 2.22m  median/maximum velocity: 2.38 / 3.49 m/s median/maximum angular velocity: 0.21 / 1.42 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.1Gb)   tar file with calibration and launch files   rosbag with odometry (8.</description>
+      <description>2018-02-28-19-01-38    Double loop around 5th floor elevator Levine Hall, up to running speed.             sensor rig: Falcam location: Levine  duration: 50s approx path length: 98maltitude difference: 2.22m  median/maximum velocity: 2.38 / 3.49 m/s median/maximum angular velocity: 0.21 / 1.42 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
     </item>
     
     <item>
       <title>2018-03-02</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/</guid>
-      <description>2018-03-02-08-06-10    Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-01-23-18-12-42, and 2018-02-28-20-04-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 249s approx path length: 118maltitude difference: 0.67m  median/maximum velocity: 0.52 / 0.92 m/s median/maximum angular velocity: 0.41 / 1.46 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
+      <description>2018-03-02-08-06-10     Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-01-23-18-12-42, and 2018-02-28-20-04-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 249s approx path length: 118maltitude difference: 0.67m  median/maximum velocity: 0.52 / 0.92 m/s median/maximum angular velocity: 0.41 / 1.46 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
     </item>
     
     <item>
       <title>2018-10-24</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/</link>
-      <pubDate>Tue, 24 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/</guid>
-      <description>2018-10-24-17-25-45   Short loop on the 2nd or 3rd floor of building 227. The illumination is at times poor.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 215s approx path length: 118maltitude difference: 1.35m  median/maximum velocity: 0.55 / 1.42 m/s median/maximum angular velocity: 0.35 / 1.49 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (14Gb)   tar file with calibration and launch files   rosbag with odometry (35Mb)</description>
+      <description>2018-10-24-17-25-45    Short loop on the 2nd or 3rd floor of building 227. The illumination is at times poor.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 215s approx path length: 118maltitude difference: 1.35m  median/maximum velocity: 0.55 / 1.42 m/s median/maximum angular velocity: 0.35 / 1.49 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (14Gb)   tar file with calibration and launch files   rosbag with odometry (35Mb)</description>
     </item>
     
     <item>
       <title>2018-10-25</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/</link>
-      <pubDate>Tue, 24 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/</guid>
-      <description>2018-10-25-18-11-30    Exploration of 4th floor of building 227, with AprilTags present. Similar to sequence 2018-11-08-13-10-31, but with worse lighting. Explores bathrooms.              sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 824s approx path length: 685maltitude difference: 2.33m  median/maximum velocity: 0.87 / 1.40 m/s median/maximum angular velocity: 0.40 / 2.15 rad/s   environment: indoorslighting: artificialtags: yes    rosbag with raw data (52Gb)   tar file with calibration and launch files   rosbag with odometry (135Mb)     rosbag with tagslam odometry (141Mb)</description>
+      <description>2018-10-25-18-11-30     Exploration of 4th floor of building 227, with AprilTags present. Similar to sequence 2018-11-08-13-10-31, but with worse lighting. Explores bathrooms.              sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 824s approx path length: 685maltitude difference: 2.33m  median/maximum velocity: 0.87 / 1.40 m/s median/maximum angular velocity: 0.40 / 2.15 rad/s   environment: indoorslighting: artificialtags: yes    rosbag with raw data (52Gb)   tar file with calibration and launch files   rosbag with odometry (135Mb)     rosbag with tagslam odometry (141Mb)   rosbag with tag detections (3.</description>
     </item>
     
     <item>
       <title>2018-11-08</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/</guid>
-      <description>2018-11-08-13-10-31    Exploration of 4th floor of building 227, with AprilTags present. Similar to sequence 2018-10-25-18-11-30, but with better lighting. Does not explore bathrooms.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 939s approx path length: 693maltitude difference: 1.58m  median/maximum velocity: 0.77 / 1.21 m/s median/maximum angular velocity: 0.34 / 1.68 rad/s   environment: indoorslighting: artificial/naturaltags: yes    rosbag with raw data (61Gb)   tar file with calibration and launch files   rosbag with odometry (155Mb)     rosbag with tagslam odometry (160Mb)   rosbag with tags detected (3.</description>
+      <description>2018-11-08-13-10-31     Exploration of 4th floor of building 227, with AprilTags present. Similar to sequence 2018-10-25-18-11-30, but with better lighting. Does not explore bathrooms.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 939s approx path length: 693maltitude difference: 1.58m  median/maximum velocity: 0.77 / 1.21 m/s median/maximum angular velocity: 0.34 / 1.</description>
     </item>
     
     <item>
       <title>2018-11-09</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/</guid>
-      <description>2018-11-09-11-00-28    Exploration of short corridor on the 4th floor of building 227, with AprilTags present.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 222s approx path length: 123maltitude difference: 0.55m  median/maximum velocity: 0.56 / 1.28 m/s median/maximum angular velocity: 0.26 / 1.49 rad/s   environment: indoorslighting: artificialtags: yes    rosbag with raw data (15Gb)   tar file with calibration and launch files   rosbag with odometry (36Mb)     rosbag with tagslam odometry (38Mb)   rosbag with tags detected (850Mb)</description>
+      <description>2018-11-09-11-00-28     Exploration of short corridor on the 4th floor of building 227, with AprilTags present.             sensor rig: Falcon 250, configuration 3 location: Building 227  duration: 222s approx path length: 123maltitude difference: 0.55m  median/maximum velocity: 0.56 / 1.28 m/s median/maximum angular velocity: 0.26 / 1.49 rad/s   environment: indoorslighting: artificialtags: yes    rosbag with raw data (15Gb)   tar file with calibration and launch files   rosbag with odometry (36Mb)     rosbag with tagslam odometry (38Mb)   rosbag with tags detected (850Mb)</description>
     </item>
     
   </channel>

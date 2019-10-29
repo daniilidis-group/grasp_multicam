@@ -6,7 +6,6 @@
     <description>Recent content in Falcam on GRASP MultiCam</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Mar 2016 00:11:02 +0100</lastBuildDate>
     
 	<atom:link href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,46 +13,47 @@
     <item>
       <title>2018-01-16</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</link>
-      <pubDate>Tue, 24 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/</guid>
-      <description>2018-01-16-14-41-13   Short loop through &#34;bump space&#34; 4th floor of Levine Hall (Graduate Research Wing).              sensor rig: Falcam location: Levine   duration: 163s   approx path length: 95m altitude difference: 2.4m   median/maximum velocity: 0.63 / 1.27 m/s median/maximum angular velocity: 0.23 / 1.26 rad/s    environment: indoorslighting: artificialtags: no    rosbag with raw data (16Gb)   tar file with calibration and launch files   rosbag with odometry (29Mb)    2018-01-16-15-39-11   Starting near &#34;</description>
+      <description>2018-01-16-14-41-13 
+  Short loop through &#34;bump space&#34; 4th floor of Levine Hall (Graduate Research Wing).               sensor rig: Falcam location: Levine   duration: 163s   approx path length: 95m altitude difference: 2.4m   median/maximum velocity: 0.63 / 1.27 m/s median/maximum angular velocity: 0.23 / 1.26 rad/s    environment: indoorslighting: artificialtags: no    rosbag with raw data (16Gb)   tar file with calibration and launch files   rosbag with odometry (29Mb)    2018-01-16-15-39-11</description>
     </item>
     
     <item>
       <title>2018-01-23</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/</link>
-      <pubDate>Thu, 26 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/</guid>
-      <description>2018-01-23-18-12-42    Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-02-28-20-04-10, and 2018-03-02-08-06-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 272s approx path length: 129maltitude difference: 0.66m  median/maximum velocity: 0.49 / 0.85 m/s median/maximum angular velocity: 0.41 / 1.58 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (27Gb)   tar file with calibration and launch files   rosbag with odometry (48Mb)</description>
+      <description>2018-01-23-18-12-42     Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-02-28-20-04-10, and 2018-03-02-08-06-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 272s approx path length: 129maltitude difference: 0.66m  median/maximum velocity: 0.49 / 0.85 m/s median/maximum angular velocity: 0.41 / 1.58 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (27Gb)   tar file with calibration and launch files   rosbag with odometry (48Mb)</description>
     </item>
     
     <item>
       <title>2018-01-29</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/</guid>
-      <description>2018-01-29-14-49-52   Bump space Levine to elevator, downstairs, out main entrance Levine, around building clockwise, back into Moore, Skirkanich, Levine Lobby, up stairs back to bump space.             sensor rig: Falcam location: Levine  duration: 549s approx path length: 475maltitude difference: 13.27m  median/maximum velocity: 0.93 / 1.49 m/s median/maximum angular velocity: 0.22 / 1.59 rad/s   environment: indoors/outdoorslighting: artificial/naturaltags: no    rosbag with raw data (55Gb)   tar file with calibration and launch files   rosbag with odometry (97Mb)    2018-01-29-15-16-31   Bump space Levine downstairs to basement lounges, then back up to bump space.</description>
+      <description>2018-01-29-14-49-52    Bump space Levine to elevator, downstairs, out main entrance Levine, around building clockwise, back into Moore, Skirkanich, Levine Lobby, up stairs back to bump space.             sensor rig: Falcam location: Levine  duration: 549s approx path length: 475maltitude difference: 13.27m  median/maximum velocity: 0.93 / 1.49 m/s median/maximum angular velocity: 0.22 / 1.59 rad/s   environment: indoors/outdoorslighting: artificial/naturaltags: no    rosbag with raw data (55Gb)   tar file with calibration and launch files   rosbag with odometry (97Mb)</description>
     </item>
     
     <item>
       <title>2018-02-28</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/</guid>
-      <description>2018-02-28-19-01-38   Double loop around 5th floor elevator Levine Hall, up to running speed.             sensor rig: Falcam location: Levine  duration: 50s approx path length: 98maltitude difference: 2.22m  median/maximum velocity: 2.38 / 3.49 m/s median/maximum angular velocity: 0.21 / 1.42 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.1Gb)   tar file with calibration and launch files   rosbag with odometry (8.</description>
+      <description>2018-02-28-19-01-38    Double loop around 5th floor elevator Levine Hall, up to running speed.             sensor rig: Falcam location: Levine  duration: 50s approx path length: 98maltitude difference: 2.22m  median/maximum velocity: 2.38 / 3.49 m/s median/maximum angular velocity: 0.21 / 1.42 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
     </item>
     
     <item>
       <title>2018-03-02</title>
       <link>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/</link>
-      <pubDate>Fri, 27 Sep 2019 00:11:02 +0100</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/</guid>
-      <description>2018-03-02-08-06-10    Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-01-23-18-12-42, and 2018-02-28-20-04-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 249s approx path length: 118maltitude difference: 0.67m  median/maximum velocity: 0.52 / 0.92 m/s median/maximum angular velocity: 0.41 / 1.46 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
+      <description>2018-03-02-08-06-10     Trip through the main GRASP lab at 403 Levine Hall. This space is also recorded in sequences 2018-1-16-16-18-11, 2018-01-23-18-12-42, and 2018-02-28-20-04-10 for detecting scene changes.             sensor rig: Falcam location: Levine  duration: 249s approx path length: 118maltitude difference: 0.67m  median/maximum velocity: 0.52 / 0.92 m/s median/maximum angular velocity: 0.41 / 1.46 rad/s   environment: indoorslighting: artificialtags: no    rosbag with raw data (5.</description>
     </item>
     
   </channel>
