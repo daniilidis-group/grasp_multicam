@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
@@ -90,17 +90,16 @@
   </url>
   
   <url>
-    <loc>https://daniilidis-group.github.io/grasp_multicam/categories/</loc>
-    <priority>0</priority>
+    <loc>https://daniilidis-group.github.io/grasp_multicam/</loc>
+    <lastmod>2019-09-25T00:11:02+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://daniilidis-group.github.io/grasp_multicam/</loc>
+    <loc>https://daniilidis-group.github.io/grasp_multicam/categories/</loc>
   </url>
   
   <url>
     <loc>https://daniilidis-group.github.io/grasp_multicam/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>

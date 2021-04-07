@@ -1,51 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Description of the data - GRASP MultiCam</title>
 <meta name="description" content="">
-<meta name="generator" content="Hugo 0.40.1" />
-<link href="https://daniilidis-group.github.io/grasp_multicam/index.xml" rel="alternate" type="application/rss+xml">
+<meta name="generator" content="Hugo 0.68.3" />
+<link href="https://daniilidis-group.github.io/grasp_multicam//index.xml" rel="alternate" type="application/rss+xml">
 <link rel="canonical" href="https://daniilidis-group.github.io/grasp_multicam/data/">
 <link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/theme.min.css">
 <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <link rel="stylesheet" href="https://daniilidis-group.github.io/grasp_multicam/css/chroma.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://daniilidis-group.github.io/grasp_multicam/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
-<script src="https://daniilidis-group.github.io/grasp_multicam/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
-<body>
-<div class="container"><header>
-<h1>GRASP MultiCam</h1>
-
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="https://daniilidis-group.github.io/grasp_multicam/js/bundle.js"></script><style>
+:root {}
+</style>
+<meta property="og:title" content="Description of the data" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://daniilidis-group.github.io/grasp_multicam/data/" />
+<meta property="og:updated_time" content="2019-09-25T00:11:02+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Description of the data"/>
+<meta name="twitter:description" content=""/>
+<meta itemprop="name" content="Description of the data">
+<meta itemprop="description" content=""></head>
+<body><div class="container"><header>
+<h1>GRASP MultiCam</h1><a href="https://github.com/daniilidis-group/grasp_multicam" class="github"><i class="fab fa-github"></i></a>
 </header>
-<div class="menu">
+<div class="global-menu">
 <nav>
 <ul>
 <li><a href="/grasp_multicam/">Home</a></li></ul>
 </nav>
 </div>
 <div class="content-container">
-<main><h1>Description of the data</h1>
-
-<h2 id="overview">Overview</h2>
-
+<main><h1>Description of the data</h1><h2 id="overview">Overview</h2>
 <p>A data set consists of:</p>
-
 <ul>
 <li>ROS bag with the raw data file</li>
 <li>ROS bag with odometry (for some sequences also ground truth)</li>
 <li>calibration yaml file</li>
 <li>for some sequences the ROS bag used for calibration</li>
 </ul>
-
 <h3 id="raw-image-data">Raw image data</h3>
-
 <p>Each data set comes with the raw sensor data as originally recorded
 (topics and frame ids have been remapped for consistency across data
 sets). This is how the topics may look like:</p>
-
 <pre><code>/monstar/camera_info      1057 msgs    : sensor_msgs/CameraInfo
 /monstar/image_depth      1057 msgs    : sensor_msgs/Image      
 /monstar/image_mono16     1057 msgs    : sensor_msgs/Image      
@@ -59,19 +62,14 @@ sets). This is how the topics may look like:</p>
 /ovc/image_metadata       4458 msgs    : ovc/Metadata           
 /ovc/imu                 40810 msgs    : sensor_msgs/Imu        
 </code></pre>
-
 <h3 id="static-transforms-and-frames">Static transforms and frames</h3>
-
 <p>There are no static transforms stored in the rosbag, but there is a
 script with which you can publish the relevant transforms from the
 calibration files. For instance to publish the transforms for an
 ovc sequence, run the following command:</p>
-
 <pre><code>rosrun grasp_multicam  publish_calibration_tf.py --calib calib.yaml --id_map topic_to_frame_id.yaml --frame_ids monstar ovc/cam_0 ovc/cam_1
 </code></pre>
-
 <h3 id="camera-and-imu-data">Camera and imu data</h3>
-
 <p>The <code>cam_0</code> topic refers to the left stereo camera, the <code>cam_1</code> to
 the right. Note that the <code>camera_info</code> topics for the stereo camera
 have a <code>equidistant</code> distortion model that is <em>not</em> supported by
@@ -80,33 +78,38 @@ the <code>multicam_calibration</code> ROS package. If you use the &ldquo;camera&
 rviz, you need to run the undistortion node, and use the
 undistorted image as topic for the rviz camera. You <em>cannot</em> rely on
 rviz to do the undistortion correctly.</p>
-
 <p>Left and right camera and imu are hardware synchronized.</p>
-
 <h3 id="monstar-data">Monstar data</h3>
-
 <p>The following data is provided:</p>
-
 <ul>
-<li><code>camera_info</code>: camera info in standard ROS format. Since the
-  distortion model is the standard plumb-bob (rad-tan) distortion
-  model, this can be directly used for undistorting the image.</li>
-<li><code>image_depth</code>: the raw disparity image as provided by the
+<li>
+<p><code>camera_info</code>: camera info in standard ROS format. Since the
+distortion model is the standard plumb-bob (rad-tan) distortion
+model, this can be directly used for undistorting the image.</p>
+</li>
+<li>
+<p><code>image_depth</code>: the raw disparity image as provided by the
 sensor. Its direct use is discouraged for 3D reconstruction. See the
-discussion for the <code>points</code> topic.</li>
-<li><code>image_mono16</code>: the intensity of the recorded sensor image. It is
-  unscaled 16bit, and thus poorly suited for visualization,
-  because most of the intensities are very low, and many ROS tools
-  cannot display 16bit monochrome images.</li>
-<li><code>image_mono8</code>:  the intensity of the recorded sensor image, but
-  scaled by the ROS driver to have a reasonable mean brightness, and reduced to 8bit
-  depth. Use this image for visualization. This image was also
-  used for calibration</li>
-
-<li><p><code>image_noise</code>:  the error estimate (in meters) for the depth
-  estimate, as provided by the libroyal driver to the ROS driver.</p></li>
-
-<li><p><code>points</code>: the 3D point cloud in the reference frame of the depth
+discussion for the <code>points</code> topic.</p>
+</li>
+<li>
+<p><code>image_mono16</code>: the intensity of the recorded sensor image. It is
+unscaled 16bit, and thus poorly suited for visualization,
+because most of the intensities are very low, and many ROS tools
+cannot display 16bit monochrome images.</p>
+</li>
+<li>
+<p><code>image_mono8</code>:  the intensity of the recorded sensor image, but
+scaled by the ROS driver to have a reasonable mean brightness, and reduced to 8bit
+depth. Use this image for visualization. This image was also
+used for calibration</p>
+</li>
+<li>
+<p><code>image_noise</code>:  the error estimate (in meters) for the depth
+estimate, as provided by the libroyal driver to the ROS driver.</p>
+</li>
+<li>
+<p><code>points</code>: the 3D point cloud in the reference frame of the depth
 sensor. Because the built-in intrinsics of the Monstar were found to
 disagree with the ones obtained from optical calibration based on the
 intensity image, we modified the ROS driver to adjust the raw
@@ -120,26 +123,21 @@ is straight forward to compute a adjusted depth image from the 3d points.
 The differences between these depth images are
 expected to be small, since they arise only from the fact that range
 is converted to depth using factory-provided vs calibrated intrinsic
-parameters.</p></li>
+parameters.</p>
+</li>
 </ul>
-
 <h3 id="calibration-file">Calibration file</h3>
-
 <p>The calibration files follow
 the <a href="https://github.com/ethz-asl/kalibr">Kalibr</a> file format:</p>
-
 <ul>
 <li><code>cam0</code> is the left  stereo camera</li>
 <li><code>cam1</code> is the right stereo camera</li>
 <li><code>cam2</code> is the depth sensor or a 3rd camera</li>
 </ul>
-
 <p>The <code>rostopic</code> field gives the identity of the camera.</p>
-
 <p>The transform <code>T_cn_cnm1</code> describes how to transform coordinates
 from camera number n-1 (&lsquo;cnm1&rsquo;) to camera number n (&lsquo;cn&rsquo;). Here is an
 example file:</p>
-
 <pre><code>cam0:
   T_cam_imu:
   - [-0.99999966637,  0.00065070822, -0.00049380236,  0.02568267124]
@@ -192,28 +190,20 @@ T_imu_body:
   - [ 0.00000000000,  0.00000000000,  1.00000000000,  0.00000000000]
   - [ 0.00000000000,  0.00000000000,  0.00000000000,  1.00000000000]
 </code></pre>
-
 <h3 id="odometry-data">Odometry data</h3>
-
 <p>These bags contain odometry data as computed with the <a href="https://github.com/KumarRobotics/msckf_vio">msckf_vio
 package</a>. Here is what you
 would find:</p>
-
 <pre><code>/tf         45043 msgs    : tf2_msgs/TFMessage
 /vio/odom   45043 msgs    : nav_msgs/Odometry
 </code></pre>
-
 <p>The <code>/tf</code> provides the transform between the fixed <code>vision</code> frame
 and <code>ovc/imu</code>. This transform is necessary to reconstruct the point
 cloud.</p>
-
 <h2 id="quirks">Quirks</h2>
-
 <p>No experimental data is ever perfect, and neither is the one of the
 GRASP multicam data set. Here are some known quirks:</p>
-
 <h3 id="imu-data-has-irregular-time-stamps">IMU data has irregular time stamps</h3>
-
 <p>For reasons that are not entirely clear, the imu data collected from the
 Falcam and OVC is sometimes irregularly spaced. With
 the IMU running at 200Hz, the time stamps should all be exactly 0.005s
@@ -221,80 +211,80 @@ apart, but they are not. Since only driver-generated message time stamps are
 considered (header.stamp), and there are some time stamps that have
 close to no gap between them, at least some of the problems cannot be
 attributed to data dropping in the recording process.</p>
-
 <p>Below is a plot of the
 differences between time stamps for Falcam sequence
 2018-01-16-15-39-11.</p>
-
-<p><img src="irreg_stamps_falcam.png" width="800"/></p>
-
+<img src="irreg_stamps_falcam.png" width="800"/>
 <p>Same for the OVC1, for sequence 2018-10-24-17-25-45:</p>
-
-<p><img src="irreg_stamps_ovc.png" width="800"/></p>
-
+<img src="irreg_stamps_ovc.png" width="800"/>
 <p>For the OVC some of the delays could be due to load on the TX2, which
 was running the picoflexx driver, the VIO odom (for testing), and the
 ovc driver itself.</p>
-
 <p>We did not notice a degradation of the MSCKF VIO quality due to the
 above time stamp issue.</p>
-
 <h3 id="monstar-intensity-image-missing-for-the-falcam-data-series">Monstar intensity image missing for the Falcam data series</h3>
-
 <p>Due to oversight, the topic <code>/monstar/image_mono16</code> was not recorded
 for the Falcam sequences, only for the OVC sequences. This image
 contains the unscaled, raw intensity of the reflected
 light. Fortunately, the same information is available in the intensity
 channel of the point cloud topic <code>/monstar/points</code>.</p>
-<div class="edit-meta">Last updated on 29 Oct 2019
-<br></div><nav class="pagination"><a class="nav nav-prev" href="/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/" title="2018-11-09"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 2018-11-09</a>
-<a class="nav nav-next" href="/grasp_multicam/how_to_use/" title="How to use">Next - How to use <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+<div class="edit-meta">Last updated on 7 Apr 2021
+<br></div><nav class="pagination"><a class="nav nav-prev" href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/" title="2018-11-09"><i class="fas fa-arrow-left" aria-hidden="true"></i>&nbsp;Prev - 2018-11-09</a>
+<a class="nav nav-next" href="https://daniilidis-group.github.io/grasp_multicam/how_to_use/" title="How to use">Next - How to use <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 </nav><footer></footer>
-</main><div class="sidebar">
-<nav>
+</main>
+<div class="sidebar">
+
+<nav class="open-menu">
 <ul>
 <li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/">Home</a></li>
 
-<li class=""><a href="/grasp_multicam/how_to_use/">How to use</a>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/how_to_use/">How to use</a>
+  
 </li>
 
-<li class=""><a href="/grasp_multicam/locations/">Locations</a>
-<ul class="">
-<li class=""><a href="/grasp_multicam/locations/building_227/">Building 227</a></li>
-<li class=""><a href="/grasp_multicam/locations/levine/">Levine Hall</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/locations/">Locations</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/locations/building_227/">Building 227</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/locations/levine/">Levine Hall</a></li>
 </ul>
   
 </li>
 
-<li class=""><a href="/grasp_multicam/sensors/">Sensor Rigs</a>
-<ul class="">
-<li class=""><a href="/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sensors/">Sensor Rigs</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sensors/imu/">IMU Sensors</a></li>
 </ul>
   
 </li>
 
-<li class=""><a href="/grasp_multicam/sequences/">Sequences</a>
-<ul class="">
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/">Sequences</a>
+  
+<ul class="sub-menu">
 
-<li class=""><a href="/grasp_multicam/sequences/falcam/">Falcam</a>
-<ul class="">
-<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/">2018-01-16</a></li>
-<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/">2018-01-23</a></li>
-<li class=""><a href="/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/">2018-01-29</a></li>
-<li class=""><a href="/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/">2018-02-28</a></li>
-<li class=""><a href="/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/">2018-03-02</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/">Falcam</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-16/2018-01-16/">2018-01-16</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-23/2018-01-23/">2018-01-23</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-01-29/2018-01-29/">2018-01-29</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-02-28/2018-02-28/">2018-02-28</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/falcam/2018-03-02/2018-03-02/">2018-03-02</a></li>
 </ul>
   
 </li>
 
-<li class=""><a href="/grasp_multicam/sequences/ovc/">OVC</a>
-<ul class="">
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/">2018-04-26</a></li>
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/">2018-05-23</a></li>
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/">2018-10-24</a></li>
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/">2018-10-25</a></li>
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/">2018-11-08</a></li>
-<li class=""><a href="/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/">2018-11-09</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/">OVC</a>
+  
+<ul class="sub-menu">
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-04-26/2018-04-26/">2018-04-26</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-05-23/2018-05-23/">2018-05-23</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-24/2018-10-24/">2018-10-24</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-10-25/2018-10-25/">2018-10-25</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-08/2018-11-08/">2018-11-08</a></li>
+<li class=""><a href="https://daniilidis-group.github.io/grasp_multicam/sequences/ovc/2018-11-09/2018-11-09/">2018-11-09</a></li>
 </ul>
   
 </li>
@@ -302,14 +292,17 @@ channel of the point cloud topic <code>/monstar/points</code>.</p>
   
 </li>
 
-<li class="parent active"><a href="/grasp_multicam/data/">Description of the data</a>
+<li class="parent active"><a href="https://daniilidis-group.github.io/grasp_multicam/data/">Description of the data</a>
+  
 </li>
 </ul>
 </nav>
 
 
+
 <div class="sidebar-footer"></div>
 </div>
+
 </div><a href="#" id="backtothetop-fixed" class="backtothetop"
  data-backtothetop-duration="600"
  data-backtothetop-easing="easeOutQuart"
