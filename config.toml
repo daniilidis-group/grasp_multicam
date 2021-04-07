@@ -7,9 +7,6 @@ theme = "hugo-theme-techdoc"
 hasCJKLanguage = true
 metaDataFormat = "yaml"
 
-pygmentsUseClasses = true
-pygmentsCodefences = true
-
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir= false
 enableMissingTranslationPlaceholders = false
@@ -17,7 +14,7 @@ enableMissingTranslationPlaceholders = false
 [Params]
     # Souce Code repository section
     description = ""
-    github_repository = ""
+    github_repository = "https://github.com/daniilidis-group/grasp_multicam"
 #    version = "0.2.1"
     home_link = "https://daniilidis-group.github.io/grasp_multicam/"
     # Documentation repository section
@@ -31,11 +28,28 @@ enableMissingTranslationPlaceholders = false
 
     # Theme settings section
     dateformat = "" # default "2 Jan 2006"
+    
+    # Documentation Menu section
+    # Menu style settings
+    menu_style = "open-menu" # "open-menu" or "slide-menu" or "" blank is as no sidebar
     # path name excluded from documentation menu
-    menu_exclusion = ["archives", "blog", "entry", "post", "posts"]
-    PublishDate = 2019-09-04T21:07:13+01:00
+    menu_exclusion = ["archives", "archive", "blog", "entry", "post", "posts"]
+    
+    PublishDate = 2021-04-06T21:07:13+01:00
+
 # Global menu section
 [[menu.main]]
     name = "Home"
     url = "/"
     weight = 1
+
+# Markup configure section
+# See https://gohugo.io/getting-started/configuration-markup/
+[markup]
+    defaultMarkdownHandler = "goldmark"
+    [markup.goldmark.renderer]
+        unsafe= true
+    [markup.tableOfContents]
+        startLevel = 2
+        endLevel = 6
+        ordered = false
